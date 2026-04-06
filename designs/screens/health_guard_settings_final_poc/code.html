@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Health Guard - Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#989ea8",
+                        "on-surface": "#161c23",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed": "#dde3ed",
+                        "surface-container-highest": "#dde3ed",
+                        "surface-dim": "#d5dae5",
+                        "surface-variant": "#dde3ed",
+                        "on-secondary-fixed": "#001f2a",
+                        "on-primary-container": "#70001f",
+                        "surface-tint": "#ac3044",
+                        "secondary-fixed-dim": "#a3cce2",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed": "#bfe9ff",
+                        "inverse-on-surface": "#ecf1fc",
+                        "primary": "#ac3044",
+                        "on-secondary-container": "#416a7c",
+                        "outline-variant": "#dfbfc0",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#e9eef9",
+                        "secondary-container": "#bfe9ff",
+                        "surface-container-low": "#eef4ff",
+                        "secondary": "#3b6476",
+                        "on-surface-variant": "#584142",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f8f9ff",
+                        "outline": "#8b7172",
+                        "on-tertiary-fixed": "#161c23",
+                        "primary-fixed": "#ffdadb",
+                        "tertiary-fixed-dim": "#c1c7d1",
+                        "primary-fixed-dim": "#ffb2b7",
+                        "on-tertiary-container": "#2f353e",
+                        "on-secondary-fixed-variant": "#214c5d",
+                        "surface": "#f8f9ff",
+                        "error-container": "#ffdad6",
+                        "primary-container": "#ff6e7f",
+                        "surface-bright": "#f8f9ff",
+                        "on-tertiary-fixed-variant": "#414750",
+                        "on-error-container": "#93000a",
+                        "inverse-primary": "#ffb2b7",
+                        "on-error": "#ffffff",
+                        "tertiary": "#595f68",
+                        "error": "#ba1a1a",
+                        "surface-container-high": "#e3e8f3",
+                        "inverse-surface": "#2b3139",
+                        "on-primary-fixed": "#40000e",
+                        "on-primary-fixed-variant": "#8b152e",
+                        "on-background": "#161c23"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                        "label": ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body antialiased">
+<!-- TopNavBar from JSON -->
+<nav class="fixed top-0 w-full z-50 px-6 py-3 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl font-sans tracking-tight antialiased shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none">
+<div class="flex justify-between items-center max-w-7xl mx-auto">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold tracking-tighter text-slate-900 dark:text-slate-50">Health Guard</span>
+<div class="hidden md:flex items-center gap-6">
+<a class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors" href="#">Status</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors" href="#">Trends</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors" href="#">Log</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-900 dark:text-white font-semibold border-b-2 border-rose-500 pb-1 hover:bg-slate-100/50 dark:hover:bg-slate-800/50 rounded-full transition-all scale-95 active:opacity-80">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<img alt="User profile avatar" class="w-10 h-10 rounded-full border-2 border-primary/20" data-alt="Portrait of a young man with a friendly expression, professional headshot style, clean minimalist background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwRxEbb_nXHpgrIg-k54mxOVO-ltbYOXHHx274Xz2zbmxGGJvSNWrZxQc1XxizOZ5gk6kHVYXgWJfpWlKRU2uK5QRoDmWuDFyOYAbJhhg1PpI_3Fws4kI6lqUKnNkI8NnMpt1kQnt9rFu1_lkMo2D0DhbECgtL9fnqU5f2_cee7BrQe08FU3NRF14q5antLEQkRd4Ri3BKHbQJ8v80gdE-QlWIR_kPEUSUYbviT7Zk1IKY-DzV993wEBtDW_JKOflRDmH3-qkKHIU"/>
+</div>
+</div>
+</nav>
+<main class="pt-28 pb-20 px-6 max-w-7xl mx-auto">
+<header class="mb-12">
+<h1 class="text-5xl font-extrabold tracking-tight text-on-surface mb-2">Settings</h1>
+<p class="text-on-surface-variant text-lg max-w-2xl">Tailor your Health Guard experience. Configure AI personality, notification rules, and secure your health data.</p>
+</header>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Messaging Integrations (Large Section) -->
+<section class="lg:col-span-7 bg-surface-container-low rounded-xl p-8 flex flex-col gap-6">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="hub">hub</span>
+<h2 class="text-2xl font-bold tracking-tight">Messaging Integrations</h2>
+</div>
+<p class="text-on-surface-variant leading-relaxed">Receive real-time alerts and interact with Stitch Bot through your preferred messaging platforms.</p>
+<div class="space-y-4 mt-2">
+<!-- WhatsApp -->
+<div class="bg-surface-container-lowest rounded-lg p-5 flex items-center justify-between group hover:shadow-lg transition-shadow duration-300">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-[#25D366]/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-[#25D366]" data-icon="chat">chat</span>
+</div>
+<div>
+<h3 class="font-semibold text-lg">WhatsApp</h3>
+<p class="text-sm text-on-surface-variant">Instant health alerts and summary logs</p>
+</div>
+</div>
+<button class="px-6 py-2 bg-secondary-container text-on-secondary-container font-medium rounded-full hover:brightness-95 transition-all">Connect</button>
+</div>
+<!-- iMessage -->
+<div class="bg-surface-container-lowest rounded-lg p-5 flex items-center justify-between group hover:shadow-lg transition-shadow duration-300">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-[#007AFF]/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-[#007AFF]" data-icon="sms">sms</span>
+</div>
+<div>
+<h3 class="font-semibold text-lg">iMessage</h3>
+<p class="text-sm text-on-surface-variant">Native Apple integration for seamless updates</p>
+</div>
+</div>
+<button class="px-6 py-2 bg-secondary-container text-on-secondary-container font-medium rounded-full hover:brightness-95 transition-all">Connect</button>
+</div>
+<!-- Telegram -->
+<div class="bg-surface-container-lowest rounded-lg p-5 flex items-center justify-between group hover:shadow-lg transition-shadow duration-300">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-[#26A5E4]/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-[#26A5E4]" data-icon="send">send</span>
+</div>
+<div>
+<h3 class="font-semibold text-lg">Telegram</h3>
+<p class="text-sm text-on-surface-variant">Encrypted bot notifications</p>
+</div>
+</div>
+<button class="px-6 py-2 bg-secondary-container text-on-secondary-container font-medium rounded-full hover:brightness-95 transition-all">Connect</button>
+</div>
+</div>
+</section>
+<!-- Rules (Vertical Section) -->
+<section class="lg:col-span-5 bg-surface-container rounded-xl p-8 flex flex-col gap-8">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="rule">rule</span>
+<h2 class="text-2xl font-bold tracking-tight">Rules</h2>
+</div>
+<div class="space-y-6">
+<div class="flex items-center justify-between pb-6 border-b border-on-surface/5">
+<div class="flex flex-col gap-1">
+<label class="font-semibold text-lg">Medication Reminders</label>
+<p class="text-sm text-on-surface-variant">Smart scheduling based on biometric sync</p>
+</div>
+<div class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-14 h-8 bg-surface-dim peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary"></div>
+</div>
+</div>
+<div class="flex items-center justify-between pb-6 border-b border-on-surface/5">
+<div class="flex flex-col gap-1">
+<label class="font-semibold text-lg">Environmental Alerts</label>
+<p class="text-sm text-on-surface-variant">Air quality and UV level warnings</p>
+</div>
+<div class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-14 h-8 bg-surface-dim peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary"></div>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex flex-col gap-1">
+<label class="font-semibold text-lg">Emergency Notifications</label>
+<p class="text-sm text-on-surface-variant">Priority override for critical biometric dips</p>
+</div>
+<div class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-14 h-8 bg-surface-dim peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Stitch Bot Config (Asymmetric/Wide) -->
+<section class="lg:col-span-8 bg-surface-container-high rounded-xl p-8 overflow-hidden relative">
+<div class="relative z-10 flex flex-col md:flex-row gap-12">
+<div class="flex-1 space-y-6">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="smart_toy">smart_toy</span>
+<h2 class="text-2xl font-bold tracking-tight">Stitch Bot Config</h2>
+</div>
+<div class="space-y-4">
+<div>
+<label class="block text-sm font-label uppercase tracking-widest text-on-surface-variant mb-2">Personality Profile</label>
+<select class="w-full bg-surface-container-lowest border-none rounded-lg p-4 focus:ring-2 focus:ring-secondary/20 appearance-none cursor-pointer">
+<option>Empathetic &amp; Gentle</option>
+<option>Direct &amp; Analytical</option>
+<option>Motivational Coach</option>
+<option>Silent Observer</option>
+</select>
+</div>
+<div>
+<label class="block text-sm font-label uppercase tracking-widest text-on-surface-variant mb-4">Summary Frequency</label>
+<div class="bg-surface-container-low p-1.5 rounded-full flex gap-1">
+<button class="flex-1 py-2 px-4 rounded-full text-sm font-medium bg-surface-container-lowest shadow-sm">Daily</button>
+<button class="flex-1 py-2 px-4 rounded-full text-sm font-medium hover:bg-white/50 transition-colors">Weekly</button>
+<button class="flex-1 py-2 px-4 rounded-full text-sm font-medium hover:bg-white/50 transition-colors">Monthly</button>
+</div>
+</div>
+</div>
+</div>
+<div class="md:w-64 flex flex-col items-center justify-center p-6 bg-white/40 rounded-lg backdrop-blur-md">
+<div class="w-32 h-32 rounded-full overflow-hidden mb-4 border-4 border-white/80">
+<img alt="Stitch Bot Interface" class="w-full h-full object-cover" data-alt="Abstract 3D sphere of glowing blue and purple light particles representing an advanced artificial intelligence interface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwJlF8hsieHC5znmowDPj-5ToZs7No2zJMmu9yNhu9gDpXXXmJB2FaMxXBUTG3WtmXE8WTma7EphC8NPBJrSBIsfXwx8qko5teQgsT2pFgM3W9J3oVOqpW9fo5wJqFVguF5OoSrHcRLA31s9V9VAf7ROnpIVNRCNDYED7hSCQRoGymRiAAY5iPq2WBUmONbjiyMUCN-Ho-zQj1m8exvMieYeBosv6ezDXm-jo4lyberW579rsXYrOra46MEg1LWpwZr26Vvky1gvk"/>
+</div>
+<p class="text-center text-sm font-medium">Stitch is currently in <span class="text-primary">"Empathetic"</span> mode.</p>
+<p class="text-center text-xs text-on-surface-variant mt-1">Updates sent at 8:00 PM Daily.</p>
+</div>
+</div>
+</section>
+<!-- Data Management (Smaller Corner Section) -->
+<section class="lg:col-span-4 glass-card rounded-xl p-8 border border-white/20 flex flex-col gap-6">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="database">database</span>
+<h2 class="text-2xl font-bold tracking-tight">Data Management</h2>
+</div>
+<div class="flex flex-col gap-3 mt-4">
+<button class="w-full py-4 bg-on-surface text-white rounded-full font-semibold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-xl" data-icon="download">download</span>
+                        Export Health Data
+                    </button>
+<button class="w-full py-4 bg-error-container text-on-error-container rounded-full font-semibold flex items-center justify-center gap-2 hover:bg-red-100 transition-colors">
+<span class="material-symbols-outlined text-xl" data-icon="delete_forever">delete_forever</span>
+                        Delete Account
+                    </button>
+</div>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-wider text-center mt-auto">Encryption Standard: AES-256 Cloud Vault</p>
+</section>
+</div>
+<!-- Floating Decorative Element -->
+<div class="fixed bottom-12 right-12 opacity-20 pointer-events-none blur-3xl">
+<div class="w-64 h-64 bg-primary rounded-full"></div>
+</div>
+<div class="fixed top-48 left-12 opacity-10 pointer-events-none blur-3xl">
+<div class="w-96 h-96 bg-secondary rounded-full"></div>
+</div>
+</main>
+<footer class="max-w-7xl mx-auto px-6 py-12 flex justify-between items-center text-on-surface-variant text-sm border-t border-on-surface/5 mt-12">
+<p>© 2024 Health Guard. Your vitals, our priority.</p>
+<div class="flex gap-8">
+<a class="hover:text-primary transition-colors" href="#">Privacy Shield</a>
+<a class="hover:text-primary transition-colors" href="#">HIPAA Compliance</a>
+<a class="hover:text-primary transition-colors" href="#">Terms of Care</a>
+</div>
+</footer>
+</body></html>

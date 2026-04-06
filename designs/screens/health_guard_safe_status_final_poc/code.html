@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Health Guard - Safe Status Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#989ea8",
+                        "on-surface": "#161c23",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed": "#dde3ed",
+                        "surface-container-highest": "#dde3ed",
+                        "surface-dim": "#d5dae5",
+                        "surface-variant": "#dde3ed",
+                        "on-secondary-fixed": "#001f2a",
+                        "on-primary-container": "#70001f",
+                        "surface-tint": "#ac3044",
+                        "secondary-fixed-dim": "#a3cce2",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed": "#bfe9ff",
+                        "inverse-on-surface": "#ecf1fc",
+                        "primary": "#ac3044",
+                        "on-secondary-container": "#416a7c",
+                        "outline-variant": "#dfbfc0",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#e9eef9",
+                        "secondary-container": "#bfe9ff",
+                        "surface-container-low": "#eef4ff",
+                        "secondary": "#3b6476",
+                        "on-surface-variant": "#584142",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f8f9ff",
+                        "outline": "#8b7172",
+                        "on-tertiary-fixed": "#161c23",
+                        "primary-fixed": "#ffdadb",
+                        "tertiary-fixed-dim": "#c1c7d1",
+                        "primary-fixed-dim": "#ffb2b7",
+                        "on-tertiary-container": "#2f353e",
+                        "on-secondary-fixed-variant": "#214c5d",
+                        "surface": "#f8f9ff",
+                        "error-container": "#ffdad6",
+                        "primary-container": "#ff6e7f",
+                        "surface-bright": "#f8f9ff",
+                        "on-tertiary-fixed-variant": "#414750",
+                        "on-error-container": "#93000a",
+                        "inverse-primary": "#ffb2b7",
+                        "on-error": "#ffffff",
+                        "tertiary": "#595f68",
+                        "error": "#ba1a1a",
+                        "surface-container-high": "#e3e8f3",
+                        "inverse-surface": "#2b3139",
+                        "on-primary-fixed": "#40000e",
+                        "on-primary-fixed-variant": "#8b152e",
+                        "on-background": "#161c23"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased min-h-screen">
+<!-- TopNavBar from Shared Components JSON -->
+<nav class="fixed top-0 w-full z-50 px-6 py-3 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none">
+<div class="flex justify-between items-center max-w-7xl mx-auto">
+<div class="text-xl font-bold tracking-tighter text-slate-900 dark:text-slate-50">Health Guard</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-slate-900 dark:text-white font-semibold border-b-2 border-rose-500 pb-1 font-sans tracking-tight antialiased" href="#">Status</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors font-sans tracking-tight antialiased" href="#">Trends</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors font-sans tracking-tight antialiased" href="#">Log</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-slate-100/50 dark:hover:bg-slate-800/50 rounded-full transition-all scale-95 active:opacity-80">
+<span class="material-symbols-outlined text-on-surface">settings</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-surface-container-high overflow-hidden border border-outline-variant/20">
+<img alt="User profile avatar" data-alt="Close up portrait of a smiling woman with soft cinematic lighting and a blurred professional background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuACXD2eMnAoGCYK4WjdEYJ7zsCNcvxTVoniX20wADklY3GMyRN7yHsaRsNV5LuNXTzVTFSALUUfpdPLMvs0OLuu77DLXtAAB10p5Bmog8PMxcc0nbgZzS_MNeU2aFRyyK5cHai7qMdI6b1AL6Ev0NsOH6MrBKefpQwevsplXc-vzywS2x2WRSUZQkYL9V3xIlEFC2Imq0UDeCdcEbRzYXM6xSLY6Bb7AM4b9uyFlzCpErjvLFx16vfkqYaiSuiAx6sygICRA29oOQQ"/>
+</div>
+</div>
+</div>
+</nav>
+<main class="pt-24 pb-12 px-6 max-w-7xl mx-auto space-y-8">
+<!-- Hero Banner: Safe Status -->
+<section class="relative h-[300px] rounded-xl overflow-hidden flex items-end p-10 md:p-16">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover" data-alt="Ethereal landscape of soft teal mountain peaks shrouded in morning mist under a clear calming sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUMW8snTiFaxy1VNnOHtOHlcIC8tL5zBw0p9Dxsru1f33KegjW6QxJoMJSzRsKyjuBe6YAhgOHdGMiDx8ljczFuxe9KjXO-1hVTx1vtODD7XLeIz3TWcER2amMor-hBa6JrD-eqELhwPJzHL1r8dUf1Ia72M0YQsERkq_iT4CUs6KFjMctgTjLZFd5SRTMs2KQAfD4IgaW4stvVNXlh3g7kqh2ijMMB_XcamVwma7dtht2Q_skOw7khZRvr2CHY5VwYCXYJw6i3Zo"/>
+<div class="absolute inset-0 bg-gradient-to-t from-secondary/80 via-secondary/20 to-transparent"></div>
+</div>
+<div class="relative z-10 space-y-2">
+<span class="px-4 py-1.5 bg-white/20 backdrop-blur-md rounded-full text-white text-xs font-semibold tracking-widest uppercase">Safe Window</span>
+<h1 class="text-4xl md:text-6xl font-bold text-white tracking-tight">You're covered until 8:00 PM.</h1>
+<p class="text-secondary-fixed text-lg md:text-xl font-light opacity-90">All vitals and environmental factors are within your optimal range.</p>
+</div>
+</section>
+<!-- Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Atmospheric Intelligence (2/3 width) -->
+<div class="md:col-span-8 bg-surface-container-low rounded-xl p-8 flex flex-col justify-between min-h-[400px]">
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<h2 class="text-2xl font-semibold tracking-tight">Atmospheric Intelligence</h2>
+<p class="text-on-surface-variant font-light">Real-time air quality &amp; particulate monitoring.</p>
+</div>
+<span class="material-symbols-outlined text-4xl text-secondary">filter_drama</span>
+</div>
+<div class="flex flex-wrap gap-12 mt-8">
+<div class="space-y-2">
+<p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant/60">AQI Index</p>
+<div class="flex items-baseline gap-2">
+<span class="text-7xl font-bold text-on-surface tracking-tighter">12</span>
+<span class="text-secondary font-medium uppercase text-sm tracking-wider">Excellent</span>
+</div>
+</div>
+<div class="space-y-2">
+<p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant/60">Pollen Level</p>
+<div class="flex items-baseline gap-2">
+<span class="text-7xl font-bold text-on-surface tracking-tighter leading-none">Low</span>
+</div>
+</div>
+</div>
+<div class="mt-8 pt-8 border-t border-outline-variant/10 flex items-center gap-4 text-on-surface-variant">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<p class="text-sm">Current conditions are ideal for outdoor cardio or deep breathing exercises.</p>
+</div>
+</div>
+<!-- Local Outlook (1/3 width) -->
+<div class="md:col-span-4 bg-secondary-container rounded-xl overflow-hidden relative group">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="San Francisco Golden Gate bridge peeking through soft white rolling fog with blue sky above" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzAMRcVX6xaKITJLKB5sOPm1k0S8mqKA3-FeHLeERygiUwP_78i6_BkKlMbbUoQXSSMvjLEVVmLIqX5vztGqxaxQet5ogZ2jlrEndhgfYUYcpMGSQXHOHTlzkJJaM45S5x-LmqoHvgxkp1jkgV7_-m-dh0giHdUXGJljEzvICnYOz6Fl9ALlcPL9SdWkYyISfY7aZx52HjXXlskUQ2JHWyNxoPrzq16vPIARAt1lQmD8mpSSHLmWycJ5r3HppJTaxgj3NshXrXuIM"/>
+<div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60"></div>
+</div>
+<div class="relative z-10 h-full p-8 flex flex-col justify-between text-white">
+<div class="flex justify-between items-start">
+<div class="bg-white/20 backdrop-blur-md rounded-full px-4 py-1 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span class="text-xs font-medium">San Francisco</span>
+</div>
+<span class="material-symbols-outlined text-2xl">wb_sunny</span>
+</div>
+<div class="space-y-1">
+<p class="text-6xl font-bold tracking-tighter">68°F</p>
+<p class="text-white/80 font-light">Mostly Sunny · Light Breeze</p>
+</div>
+</div>
+</div>
+<!-- Treatment Window (1/3 width) -->
+<div class="md:col-span-4 bg-surface-container rounded-xl p-8 space-y-6">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">medical_services</span>
+</div>
+<div class="space-y-2">
+<h3 class="text-xl font-bold tracking-tight">Treatment Window</h3>
+<p class="text-on-surface-variant leading-relaxed">Your personalized health cycle suggests the next optimal window is approaching.</p>
+</div>
+<div class="bg-surface-container-lowest rounded-lg p-6 flex flex-col items-center text-center space-y-2 shadow-sm">
+<p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant/60">Available In</p>
+<p class="text-4xl font-extrabold text-on-surface tracking-tight">3 Hours</p>
+</div>
+</div>
+<!-- Aether Suggestion (1/3 width) -->
+<div class="md:col-span-4 bg-on-surface rounded-xl p-8 relative overflow-hidden flex flex-col justify-center">
+<div class="absolute -top-10 -right-10 w-40 h-40 bg-secondary/20 blur-[80px]"></div>
+<div class="relative z-10 space-y-6">
+<div class="space-y-2">
+<div class="flex items-center gap-2 text-secondary-fixed">
+<span class="material-symbols-outlined text-sm">auto_awesome</span>
+<span class="text-xs font-bold uppercase tracking-widest">Aether Suggestion</span>
+</div>
+<h3 class="text-3xl font-bold text-white tracking-tight leading-tight">"Enjoy the fresh air"</h3>
+</div>
+<p class="text-white/60 font-light leading-relaxed">A 20-minute walk at the current AQI level will significantly boost your oxytocin levels today.</p>
+<button class="w-full py-4 bg-secondary text-white rounded-full font-semibold scale-95 hover:scale-100 active:opacity-80 transition-transform flex items-center justify-center gap-2">
+                        Plan Walk <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Weekly Wellness Stats (1/3 width) -->
+<div class="md:col-span-4 bg-surface-container-high rounded-xl p-8 flex flex-col justify-between">
+<div class="flex justify-between items-center">
+<h3 class="text-lg font-bold tracking-tight">Weekly Wellness</h3>
+<span class="material-symbols-outlined text-on-surface-variant">monitoring</span>
+</div>
+<div class="space-y-6">
+<div class="flex justify-between items-end border-b border-outline-variant/20 pb-4">
+<div class="space-y-1">
+<p class="text-xs text-on-surface-variant">Avg. Sleep</p>
+<p class="text-2xl font-bold">7h 42m</p>
+</div>
+<span class="text-xs font-bold text-primary">+12%</span>
+</div>
+<div class="flex justify-between items-end border-b border-outline-variant/20 pb-4">
+<div class="space-y-1">
+<p class="text-xs text-on-surface-variant">Active Hours</p>
+<p class="text-2xl font-bold">4.8 / day</p>
+</div>
+<span class="text-xs font-bold text-secondary">+5%</span>
+</div>
+<div class="flex justify-between items-end">
+<div class="space-y-1">
+<p class="text-xs text-on-surface-variant">Hydration</p>
+<p class="text-2xl font-bold">2.4L</p>
+</div>
+<span class="text-xs font-bold text-on-surface-variant">Target</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer / Insights Summary -->
+<footer class="mt-12 pt-12 border-t border-outline-variant/10 text-center space-y-4">
+<p class="text-sm text-on-surface-variant/60 font-medium tracking-wide uppercase">AI Curator Insight</p>
+<p class="max-w-2xl mx-auto text-on-surface leading-relaxed text-lg">
+                Your health ecosystem is currently in a <strong>Stable</strong> state. We've synchronized your environmental data with your metabolic logs for maximum precision.
+            </p>
+<div class="pt-8 text-xs text-on-surface-variant/40">
+                © Health Guard 2024 · All data is encrypted and private.
+            </div>
+</footer>
+</main>
+<!-- Map Context for data-location usage (Hidden for layout purposes but present for requirements) -->
+<div class="hidden" data-location="San Francisco" style=""></div>
+</body></html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#989ea8",
+                    "on-surface": "#161c23",
+                    "on-secondary": "#ffffff",
+                    "tertiary-fixed": "#dde3ed",
+                    "surface-container-highest": "#dde3ed",
+                    "surface-dim": "#d5dae5",
+                    "surface-variant": "#dde3ed",
+                    "on-secondary-fixed": "#001f2a",
+                    "on-primary-container": "#70001f",
+                    "surface-tint": "#ac3044",
+                    "secondary-fixed-dim": "#a3cce2",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed": "#bfe9ff",
+                    "inverse-on-surface": "#ecf1fc",
+                    "primary": "#ac3044",
+                    "on-secondary-container": "#416a7c",
+                    "outline-variant": "#dfbfc0",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container": "#e9eef9",
+                    "secondary-container": "#bfe9ff",
+                    "surface-container-low": "#eef4ff",
+                    "secondary": "#3b6476",
+                    "on-surface-variant": "#584142",
+                    "on-tertiary": "#ffffff",
+                    "background": "#f8f9ff",
+                    "outline": "#8b7172",
+                    "on-tertiary-fixed": "#161c23",
+                    "primary-fixed": "#ffdadb",
+                    "tertiary-fixed-dim": "#c1c7d1",
+                    "primary-fixed-dim": "#ffb2b7",
+                    "on-tertiary-container": "#2f353e",
+                    "on-secondary-fixed-variant": "#214c5d",
+                    "surface": "#f8f9ff",
+                    "error-container": "#ffdad6",
+                    "primary-container": "#ff6e7f",
+                    "surface-bright": "#f8f9ff",
+                    "on-tertiary-fixed-variant": "#414750",
+                    "on-error-container": "#93000a",
+                    "inverse-primary": "#ffb2b7",
+                    "on-error": "#ffffff",
+                    "tertiary": "#595f68",
+                    "error": "#ba1a1a",
+                    "surface-container-high": "#e3e8f3",
+                    "inverse-surface": "#2b3139",
+                    "on-primary-fixed": "#40000e",
+                    "on-primary-fixed-variant": "#8b152e",
+                    "on-background": "#161c23"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-glow {
+            background: radial-gradient(circle at top left, rgba(255, 110, 127, 0.08), transparent 40%),
+                        radial-gradient(circle at bottom right, rgba(191, 233, 255, 0.15), transparent 40%);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased min-h-screen">
+<!-- TopNavBar - Mapping from Shared Components JSON -->
+<nav class="fixed top-0 w-full z-50 px-6 py-3 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none">
+<div class="flex justify-between items-center max-w-7xl mx-auto font-sans tracking-tight antialiased">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold tracking-tighter text-slate-900 dark:text-slate-50">Health Guard</span>
+<div class="hidden md:flex gap-6 items-center">
+<a class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors" href="#">Status</a>
+<a class="text-slate-900 dark:text-white font-semibold border-b-2 border-rose-500 pb-1" href="#">Trends</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors" href="#">Log</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-slate-100/50 dark:hover:bg-slate-800/50 rounded-full transition-all scale-95 active:opacity-80">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-300">settings</span>
+</button>
+<div class="h-10 w-10 rounded-full overflow-hidden border-2 border-white dark:border-slate-800">
+<img alt="User profile avatar" data-alt="professional close-up portrait of a health-conscious individual with soft natural lighting and neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCRD23jCAvT-puSyC8iuQymIzx_A-HYw5JGBz9t-MwrZk2KhAg2qpOjrbStBKWoMPWjzPC4kuljJ40YUk4ehTr-ktMFYwI0IxbKGEcQdh-h13V2L7R5gzcT85dXgt1hQtUa8OJShFz2-JO7SrARrL7Yd5eDH1trlfgNxccP4PBzbK7sZLqmEf0JpLULzN7OhZVJRD_dZpLh3RduZ-KodjKNHmXWH5xn7wcQ2lqzpK57sIYXGM5l08ekePrJbbgUwE2pNsjRXjPflE"/>
+</div>
+</div>
+</div>
+</nav>
+<main class="max-w-7xl mx-auto pt-24 pb-20 px-6 lg:px-8">
+<!-- Header & Search -->
+<header class="mb-12 space-y-8">
+<div class="max-w-2xl">
+<h1 class="text-5xl font-extrabold tracking-tighter text-on-surface mb-4">Your Insights.</h1>
+<p class="text-lg text-tertiary font-light">Explore deep patterns across your physiology, environment, and daily logs.</p>
+</div>
+<div class="relative max-w-3xl">
+<div class="absolute inset-y-0 left-5 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-secondary">search</span>
+</div>
+<input class="w-full pl-14 pr-6 py-5 bg-surface-container-high border-none rounded-xl text-on-surface placeholder:text-secondary/60 focus:ring-4 focus:ring-secondary-container/30 focus:bg-surface-container-lowest transition-all duration-300" placeholder="Search health insights, medications, or metrics..." type="text"/>
+</div>
+</header>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-8 glass-glow rounded-xl p-2">
+<!-- Curator's Insight Card - Large 2/3 -->
+<div class="md:col-span-6 lg:col-span-8 bg-gradient-to-br from-primary to-primary-container p-10 rounded-xl flex flex-col justify-between text-white overflow-hidden relative group">
+<div class="absolute top-0 right-0 p-12 opacity-20 pointer-events-none group-hover:scale-110 transition-transform duration-700">
+<span class="material-symbols-outlined text-[12rem]" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<div class="relative z-10">
+<span class="text-xs font-bold tracking-[0.2em] uppercase opacity-80 mb-4 block">AI CURATOR RECOMMENDATION</span>
+<h2 class="text-4xl font-bold tracking-tight mb-6 max-w-md">Your recovery scores are peaking after light-exposure therapy.</h2>
+<p class="text-xl font-light opacity-90 max-w-lg leading-relaxed">Based on your trend of 7.2h Deep Rest, we recommend shifting your high-intensity cardio to 10:00 AM for optimal metabolic response.</p>
+</div>
+<div class="relative z-10 mt-12 flex gap-4">
+<button class="bg-white text-primary px-8 py-3 rounded-full font-bold shadow-lg hover:shadow-xl transition-all active:scale-95">View Protocol</button>
+<button class="bg-white/20 backdrop-blur-md text-white px-8 py-3 rounded-full font-bold hover:bg-white/30 transition-all active:scale-95">Dismiss</button>
+</div>
+</div>
+<!-- Resting Heart Rate Card -->
+<div class="md:col-span-3 lg:col-span-4 bg-surface-container-low p-8 rounded-xl flex flex-col justify-between shadow-[0_20px_40px_rgba(22,28,35,0.03)]">
+<div>
+<div class="flex justify-between items-start mb-6">
+<span class="material-symbols-outlined text-primary p-3 bg-primary-fixed rounded-lg">favorite</span>
+<span class="text-xs font-bold text-tertiary tracking-widest uppercase">7 DAY TREND</span>
+</div>
+<h3 class="text-tertiary font-medium mb-1">Resting Heart Rate</h3>
+<div class="flex items-baseline gap-2">
+<span class="text-4xl font-bold tracking-tighter">58</span>
+<span class="text-lg text-tertiary">BPM</span>
+</div>
+</div>
+<div class="mt-8 h-24 flex items-end gap-1.5">
+<!-- Simple SVG Sparkline replacement -->
+<div class="flex-1 bg-primary/10 rounded-t-full h-[60%]"></div>
+<div class="flex-1 bg-primary/10 rounded-t-full h-[75%]"></div>
+<div class="flex-1 bg-primary/10 rounded-t-full h-[65%]"></div>
+<div class="flex-1 bg-primary/10 rounded-t-full h-[90%]"></div>
+<div class="flex-1 bg-primary/20 rounded-t-full h-[55%]"></div>
+<div class="flex-1 bg-primary/10 rounded-t-full h-[80%]"></div>
+<div class="flex-1 bg-primary rounded-t-full h-[100%]"></div>
+</div>
+</div>
+<!-- Sleep Quality Card -->
+<div class="md:col-span-3 lg:col-span-4 bg-surface-container-low p-8 rounded-xl shadow-[0_20px_40px_rgba(22,28,35,0.03)]">
+<div class="flex justify-between items-start mb-6">
+<span class="material-symbols-outlined text-secondary p-3 bg-secondary-container rounded-lg">nights_stay</span>
+<span class="text-primary-container font-bold text-xs">+12% vs last week</span>
+</div>
+<h3 class="text-tertiary font-medium mb-1">Sleep Quality</h3>
+<div class="flex items-baseline gap-2 mb-4">
+<span class="text-4xl font-bold tracking-tighter">7.2h</span>
+<span class="text-lg text-tertiary">Deep Rest</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 78%"></div>
+</div>
+<p class="text-xs text-tertiary mt-4 font-light">Consistency: <span class="font-bold text-on-surface">Very High</span></p>
+</div>
+<!-- Cardio Fitness Card (Asymmetric Layout) -->
+<div class="md:col-span-3 lg:col-span-4 bg-surface-container-low p-8 rounded-xl shadow-[0_20px_40px_rgba(22,28,35,0.03)] relative overflow-hidden group">
+<div class="flex justify-between items-start mb-6">
+<span class="material-symbols-outlined text-tertiary p-3 bg-surface-container-high rounded-lg">fitness_center</span>
+</div>
+<h3 class="text-tertiary font-medium mb-1">Cardio Fitness</h3>
+<div class="flex items-baseline gap-2">
+<span class="text-4xl font-bold tracking-tighter">48.2</span>
+<span class="text-lg text-tertiary">VO2 Max</span>
+</div>
+<div class="mt-4 inline-flex items-center gap-1.5 bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> Superior
+                </div>
+<!-- Abstract visual element -->
+<div class="absolute -bottom-8 -right-8 w-32 h-32 bg-secondary/5 rounded-full blur-3xl group-hover:bg-secondary/10 transition-colors"></div>
+</div>
+<!-- Environmental Exposure Card -->
+<div class="md:col-span-3 lg:col-span-4 bg-surface-container-low p-8 rounded-xl shadow-[0_20px_40px_rgba(22,28,35,0.03)]">
+<div class="flex justify-between items-start mb-6">
+<span class="material-symbols-outlined text-on-secondary-fixed-variant p-3 bg-secondary-fixed rounded-lg">eco</span>
+<span class="text-xs font-bold text-tertiary uppercase">Outdoor</span>
+</div>
+<h3 class="text-tertiary font-medium mb-4">Pollen Exposure</h3>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between text-xs mb-1 font-medium">
+<span>Grass</span>
+<span class="text-tertiary">High</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary-container" style="width: 85%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-xs mb-1 font-medium">
+<span>Tree</span>
+<span class="text-tertiary">Moderate</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-secondary" style="width: 45%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-xs mb-1 font-medium">
+<span>Weed</span>
+<span class="text-tertiary">Low</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-secondary-container" style="width: 15%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Medication History Log - Tall Column Span -->
+<div class="md:col-span-6 lg:col-span-12 bg-surface-container-lowest p-8 rounded-xl shadow-[0_20px_40px_rgba(22,28,35,0.04)]">
+<div class="flex justify-between items-center mb-10">
+<div>
+<h3 class="text-2xl font-bold tracking-tight">Medication History</h3>
+<p class="text-sm text-tertiary font-light">Detailed log of adherence and timing.</p>
+</div>
+<button class="p-3 hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</div>
+<div class="space-y-0">
+<!-- Medication Item 1 -->
+<div class="flex items-center justify-between py-6 group hover:px-4 hover:bg-surface-container-low transition-all rounded-lg">
+<div class="flex items-center gap-6">
+<div class="h-14 w-14 bg-primary/5 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">pill</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface">Lisinopril</h4>
+<p class="text-xs text-tertiary">10mg • Morning dose</p>
+</div>
+</div>
+<div class="text-right hidden sm:block">
+<p class="text-sm font-semibold">Today, 08:30 AM</p>
+<p class="text-xs text-green-600 font-bold">LOGGED</p>
+</div>
+<span class="material-symbols-outlined text-green-500" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<!-- Medication Item 2 -->
+<div class="flex items-center justify-between py-6 group hover:px-4 hover:bg-surface-container-low transition-all rounded-lg">
+<div class="flex items-center gap-6">
+<div class="h-14 w-14 bg-secondary/5 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">pill</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface">Omega-3 Complex</h4>
+<p class="text-xs text-tertiary">1000mg • After Lunch</p>
+</div>
+</div>
+<div class="text-right hidden sm:block">
+<p class="text-sm font-semibold">Today, 01:15 PM</p>
+<p class="text-xs text-green-600 font-bold">LOGGED</p>
+</div>
+<span class="material-symbols-outlined text-green-500" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<!-- Medication Item 3 -->
+<div class="flex items-center justify-between py-6 group hover:px-4 hover:bg-surface-container-low transition-all rounded-lg">
+<div class="flex items-center gap-6">
+<div class="h-14 w-14 bg-surface-container-high rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary">medication</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface">Magnesium Glycinate</h4>
+<p class="text-xs text-tertiary">400mg • Pre-sleep</p>
+</div>
+</div>
+<div class="text-right hidden sm:block">
+<p class="text-sm font-semibold">Pending</p>
+<p class="text-xs text-tertiary font-bold">DUE IN 3H</p>
+</div>
+<span class="material-symbols-outlined text-surface-dim">circle</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Button - Suprressed per rules, but showing context for Dashboard needs -->
+<!-- Suppressed: Handled by Contextual FAB Suppression rule for Details/Trends screens -->
+</body></html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Health Guard - Warning Status</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#989ea8",
+                        "on-surface": "#161c23",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed": "#dde3ed",
+                        "surface-container-highest": "#dde3ed",
+                        "surface-dim": "#d5dae5",
+                        "surface-variant": "#dde3ed",
+                        "on-secondary-fixed": "#001f2a",
+                        "on-primary-container": "#70001f",
+                        "surface-tint": "#ac3044",
+                        "secondary-fixed-dim": "#a3cce2",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed": "#bfe9ff",
+                        "inverse-on-surface": "#ecf1fc",
+                        "primary": "#ac3044",
+                        "on-secondary-container": "#416a7c",
+                        "outline-variant": "#dfbfc0",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#e9eef9",
+                        "secondary-container": "#bfe9ff",
+                        "surface-container-low": "#eef4ff",
+                        "secondary": "#3b6476",
+                        "on-surface-variant": "#584142",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f8f9ff",
+                        "outline": "#8b7172",
+                        "on-tertiary-fixed": "#161c23",
+                        "primary-fixed": "#ffdadb",
+                        "tertiary-fixed-dim": "#c1c7d1",
+                        "primary-fixed-dim": "#ffb2b7",
+                        "on-tertiary-container": "#2f353e",
+                        "on-secondary-fixed-variant": "#214c5d",
+                        "surface": "#f8f9ff",
+                        "error-container": "#ffdad6",
+                        "primary-container": "#ff6e7f",
+                        "surface-bright": "#f8f9ff",
+                        "on-tertiary-fixed-variant": "#414750",
+                        "on-error-container": "#93000a",
+                        "inverse-primary": "#ffb2b7",
+                        "on-error": "#ffffff",
+                        "tertiary": "#595f68",
+                        "error": "#ba1a1a",
+                        "surface-container-high": "#e3e8f3",
+                        "inverse-surface": "#2b3139",
+                        "on-primary-fixed": "#40000e",
+                        "on-primary-fixed-variant": "#8b152e",
+                        "on-background": "#161c23"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased min-h-screen">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 px-6 py-3 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none">
+<div class="flex justify-between items-center max-w-7xl mx-auto">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold tracking-tighter text-slate-900 dark:text-slate-50">Health Guard</span>
+<div class="hidden md:flex gap-6">
+<a class="text-slate-900 dark:text-white font-semibold border-b-2 border-rose-500 pb-1 font-sans tracking-tight antialiased" href="#">Status</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors font-sans tracking-tight antialiased" href="#">Trends</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors font-sans tracking-tight antialiased" href="#">Log</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-slate-100/50 dark:hover:bg-slate-800/50 rounded-full transition-all active:scale-95">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-300">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant/20">
+<img alt="User profile avatar" data-alt="Close-up portrait of a professional man with a kind expression and clean studio lighting on a neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCeUEGCuQBaoMSt-okt76zVfbFYF2Xr3Iy8PLUQPEX33qkvDKOX2rhOo49hVMtBaHR2oKZE8Hs1lVhX-YJ9euN1kNKLf42qdPrDDeIPAz31dpcOZ9XVj5Z5dcUqsbgQRx8Nl3AQdOxD8rilQ5b-088YvRM5cPPnhrmpscHtq3dLkcy30SiFMiPywkyElS4CQro7a6SIZ53OkCFi0MyX38aKvAvESK2edkvOzBa1OFnmWVUDwoBTASUn7zCz2FyFVi_SR04khnsMdVI"/>
+</div>
+</div>
+</div>
+</nav>
+<main class="pt-24 pb-12 px-6 max-w-7xl mx-auto">
+<!-- Hero Warning Banner -->
+<section class="mb-12 relative overflow-hidden rounded-xl h-[320px] flex items-center group">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover brightness-75 group-hover:scale-105 transition-transform duration-700" data-alt="Macro photography of vibrant spring flowers releasing pollen particles into the air at sunset with dramatic warm orange lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcjywcsh2hT3kksf1w-DXCKWBwQ177hidlmwtPbhiRmeC_HMy5i0Ct2BzUfDN1cRUS0IQ0jjAA7sO2pqtOJuPd9Gbq5uQmJIR9hcppcNEdI4g_p12bY664LFYSbyLbNXbkTh1H-MERzPbh5Z6l9fUp7-zzVnsKO1T_7SUds6xJvkvasShlSoPpIsIAC0UUMODqq_Hw-AXJQWeBq24n1xGTDS9Oub4Uzq23KB1FChdcTYypyuU7wIxqKVmTaw2GjarRaCA-VfJSsTc"/>
+<div class="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary-container/60 to-transparent"></div>
+</div>
+<div class="relative z-10 px-12 max-w-2xl">
+<span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-white text-xs font-bold tracking-widest uppercase mb-4">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">warning</span>
+                    Immediate Action Required
+                </span>
+<h1 class="text-5xl md:text-6xl font-extrabold text-white tracking-tighter mb-4 leading-none">High Pollen detected. Take your dose now.</h1>
+<p class="text-lg text-white/90 font-medium mb-8 max-w-md">Environmental triggers are at peak levels in your current vicinity. Recommended treatment window is closing.</p>
+<button class="px-8 py-4 bg-white text-primary font-bold rounded-full hover:shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-2">
+                    Log Medication Dose
+                    <span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</section>
+<!-- Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Atmospheric Intelligence -->
+<div class="md:col-span-2 bg-surface-container-low rounded-xl p-8 flex flex-col justify-between overflow-hidden relative group">
+<div class="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-[120px]">air</span>
+</div>
+<div>
+<h2 class="text-label-sm font-bold uppercase tracking-widest text-on-surface-variant mb-6">Atmospheric Intelligence</h2>
+<div class="flex items-end gap-12">
+<div>
+<p class="text-xs font-bold text-on-surface-variant/60 uppercase mb-1">Air Quality Index</p>
+<div class="flex items-baseline gap-2">
+<span class="text-7xl font-extrabold tracking-tighter text-on-surface">842</span>
+<span class="text-xl font-bold text-error uppercase">Hazardous</span>
+</div>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface-variant/60 uppercase mb-1">Pollen Count</p>
+<div class="flex items-baseline gap-2">
+<span class="text-4xl font-extrabold tracking-tighter text-on-surface">High</span>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">eco</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-12 flex gap-2 overflow-x-auto pb-2">
+<div class="flex-shrink-0 px-4 py-3 bg-surface-container-lowest rounded-lg">
+<p class="text-[10px] font-bold text-on-surface-variant/60 uppercase">Ozone</p>
+<p class="text-lg font-bold">142 ppb</p>
+</div>
+<div class="flex-shrink-0 px-4 py-3 bg-surface-container-lowest rounded-lg">
+<p class="text-[10px] font-bold text-on-surface-variant/60 uppercase">PM 2.5</p>
+<p class="text-lg font-bold">89 µg/m³</p>
+</div>
+<div class="flex-shrink-0 px-4 py-3 bg-surface-container-lowest rounded-lg border-2 border-primary/20">
+<p class="text-[10px] font-bold text-primary uppercase">Ragweed</p>
+<p class="text-lg font-bold text-primary">Extreme</p>
+</div>
+</div>
+</div>
+<!-- Treatment Window -->
+<div class="bg-primary/5 rounded-xl p-8 flex flex-col justify-between border-2 border-primary/10">
+<div>
+<div class="flex justify-between items-start mb-6">
+<h2 class="text-label-sm font-bold uppercase tracking-widest text-primary">Treatment Window</h2>
+<span class="material-symbols-outlined text-primary animate-pulse" style="font-variation-settings: 'FILL' 1;">timer</span>
+</div>
+<div class="mb-4">
+<p class="text-xs font-bold text-on-surface-variant/60 uppercase mb-1">Dose Overdue</p>
+<h3 class="text-3xl font-extrabold tracking-tight text-on-surface">Antihistamine</h3>
+</div>
+<p class="text-sm text-on-surface-variant font-medium leading-relaxed">Your 24-hour protection expired 45 minutes ago. High trigger environment detected.</p>
+</div>
+<button class="w-full py-4 bg-primary text-white font-bold rounded-full hover:bg-on-primary-fixed-variant transition-colors">
+                    Confirm Dosage
+                </button>
+</div>
+<!-- Local Outlook -->
+<div class="bg-secondary-container/30 rounded-xl p-8 relative overflow-hidden min-h-[280px] flex flex-col justify-between">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover opacity-20 grayscale" data-alt="Golden Gate Bridge in San Francisco shrouded in thick morning fog with muted grey and blue tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDklbB0bbNTUg1q8IQG1CgQSGyzcmX7NT54kvnb8aKWa1WnSzVojWBWw80AjOI5lwhRfmHpBtLhNi0zkrcY0NmAFu3zvR46nEqTsOA132xDnjVlCN8TrYMGnpA2s8-Qie_yvHVO1G95iUo84Oboaen1GMMWPXLB9yhRzwTX3QAATpOEtrE5Wl4kwHs0nfY59EYwqgz__TeCyOAdP4sQ3VDIZ2jziiLsJEkjwToVGOnuolxGVuMIgdEPTKacB8TWAQe_xzuGg_nasTM"/>
+</div>
+<div class="relative z-10">
+<div class="flex justify-between items-start">
+<h2 class="text-label-sm font-bold uppercase tracking-widest text-on-secondary-container">Local Outlook</h2>
+<span class="material-symbols-outlined text-on-secondary-container">location_on</span>
+</div>
+<div class="mt-4">
+<p class="text-3xl font-extrabold tracking-tighter text-on-surface">San Francisco</p>
+<p class="text-5xl font-light tracking-tighter text-on-surface">72°F</p>
+</div>
+</div>
+<div class="relative z-10 flex items-center gap-2 text-on-secondary-container font-semibold">
+<span class="material-symbols-outlined">cloudy</span>
+<span>Hazy conditions persist until 8 PM</span>
+</div>
+</div>
+<!-- Aether Suggestion -->
+<div class="bg-surface-container-highest rounded-xl p-8 flex flex-col justify-between group">
+<div>
+<h2 class="text-label-sm font-bold uppercase tracking-widest text-on-tertiary-fixed-variant mb-6">Aether Suggestion</h2>
+<div class="space-y-4">
+<div class="flex items-center gap-4 bg-white/40 p-4 rounded-lg">
+<span class="material-symbols-outlined text-primary">window</span>
+<p class="text-on-surface font-bold">Close all windows</p>
+</div>
+<div class="flex items-center gap-4 bg-white p-4 rounded-lg shadow-sm border border-primary/10">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">cyclone</span>
+<div class="flex flex-col">
+<p class="text-on-surface font-bold">Purifier: Max Power</p>
+<p class="text-[10px] font-bold text-on-surface-variant uppercase">Active in Living Room</p>
+</div>
+</div>
+</div>
+</div>
+<button class="text-primary font-bold flex items-center gap-2 group-hover:translate-x-1 transition-transform mt-6">
+                    Manage Smart Home
+                    <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<!-- Critical Phase Alerts -->
+<div class="bg-white rounded-xl p-8 shadow-[0_20px_40px_rgba(22,28,35,0.03)] flex flex-col">
+<h2 class="text-label-sm font-bold uppercase tracking-widest text-error mb-6">Critical Phase Alerts</h2>
+<div class="space-y-6">
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 rounded-full bg-error/10 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-error text-xl">respiratory_rate</span>
+</div>
+<div>
+<p class="font-bold text-on-surface">Inflammation Risk</p>
+<p class="text-sm text-on-surface-variant">Elevated for the next 4 hours based on pollen density.</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 rounded-full bg-secondary-container/50 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-secondary text-xl">exercise</span>
+</div>
+<div>
+<p class="font-bold text-on-surface">Avoid Outdoor Cardio</p>
+<p class="text-sm text-on-surface-variant">Recommended: Indoor yoga or stationary cycling.</p>
+</div>
+</div>
+</div>
+<div class="mt-auto pt-8">
+<div class="w-full bg-surface-container-low h-2 rounded-full overflow-hidden">
+<div class="bg-error h-full w-[85%] rounded-full"></div>
+</div>
+<div class="flex justify-between mt-2 text-[10px] font-bold uppercase text-on-surface-variant">
+<span>Risk Baseline</span>
+<span class="text-error">Critical Threshold</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Contextual FAB (Hidden on Warning Dashboard per shell visibility rules, but kept as reference for system capability) -->
+<!-- Suppression applied as per Contextual FAB Suppression rule for focused warning state -->
+</body></html>
