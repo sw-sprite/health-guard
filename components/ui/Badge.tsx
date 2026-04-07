@@ -17,7 +17,7 @@ export default function Badge({ children, variant = 'ghost', className }: BadgeP
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold tracking-widest uppercase',
+        'inline-flex items-center gap-1 px-3 py-1 rounded text-xs font-semibold tracking-widest uppercase',
         variants[variant],
         className
       )}

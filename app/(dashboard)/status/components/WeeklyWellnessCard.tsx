@@ -22,7 +22,7 @@ export default function WeeklyWellnessCard() {
   ]
 
   return (
-    <div className="rounded-xl p-6 shadow-card bg-surface-container-low h-full flex flex-col gap-4">
+    <div className="rounded-lg p-6 shadow-card bg-surface-container-low h-full flex flex-col gap-4">
       <div>
         <p className="text-xs font-bold uppercase tracking-widest text-on-surface-variant/60 mb-1">
           Weekly Wellness
@@ -32,7 +32,7 @@ export default function WeeklyWellnessCard() {
 
       <div className="flex flex-col gap-3">
         {metrics.map((m) => (
-          <div key={m.label} className="flex items-center gap-3 bg-white/60 rounded-xl p-3">
+          <div key={m.label} className="flex items-center gap-3 bg-white/60 rounded p-3">
             <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-secondary/10">
               <Icon name={m.icon} filled size={20} className="text-secondary" />
             </div>

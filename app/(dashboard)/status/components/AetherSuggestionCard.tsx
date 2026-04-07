@@ -52,7 +52,7 @@ export default function AetherSuggestionCard({ status }: AetherSuggestionCardPro
   return (
     <motion.div
       animate={{ opacity: 1 }}
-      className={cn('rounded-xl p-6 shadow-card h-full flex flex-col gap-4', cfg.bg)}
+      className={cn('rounded-lg p-6 shadow-card h-full flex flex-col gap-4', cfg.bg)}
     >
       {/* Header */}
       <div className="flex items-center gap-3">
@@ -70,7 +70,7 @@ export default function AetherSuggestionCard({ status }: AetherSuggestionCardPro
       {/* Suggestions */}
       <div className="flex flex-col gap-3 flex-1">
         {cfg.suggestions.map((s, i) => (
-          <div key={i} className="flex items-start gap-3 bg-white/50 rounded-xl p-3">
+          <div key={i} className="flex items-start gap-3 bg-white/50 rounded p-3">
             <Icon name={s.icon} filled size={18} className={cn('mt-0.5 shrink-0', cfg.iconColor)} />
             <p className="text-sm text-on-surface leading-snug">{s.text}</p>
           </div>
@@ -81,7 +81,7 @@ export default function AetherSuggestionCard({ status }: AetherSuggestionCardPro
       <Link
         href={cfg.cta.href}
         className={cn(
-          'flex items-center justify-center gap-2 w-full py-3 rounded-full font-semibold text-sm active:scale-95 transition-all',
+          'flex items-center justify-center gap-2 w-full py-3 rounded-lg font-semibold text-sm active:scale-95 transition-all',
           cfg.cta.variant === 'secondary' && 'bg-secondary text-white hover:bg-secondary/90',
           cfg.cta.variant === 'primary' && 'bg-primary text-white hover:bg-primary/90',
           cfg.cta.variant === 'critical' && 'bg-error text-white hover:bg-error/90',

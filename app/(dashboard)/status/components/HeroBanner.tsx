@@ -60,7 +60,7 @@ export default function HeroBanner({ status, message, userName }: HeroBannerProp
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.8, ease: 'easeInOut' }}
-        className={`relative overflow-hidden rounded-xl md:rounded-[2rem] bg-gradient-to-br ${cfg.bgGradient} min-h-[320px] md:min-h-[380px] flex flex-col justify-end p-8 md:p-12`}
+        className={`relative overflow-hidden rounded-lg bg-gradient-to-br ${cfg.bgGradient} min-h-[320px] md:min-h-[380px] flex flex-col justify-end p-8 md:p-12`}
       >
         {/* Decorative circles */}
         <div
@@ -111,14 +111,14 @@ export default function HeroBanner({ status, message, userName }: HeroBannerProp
           <div className="flex items-center gap-3 flex-wrap">
             <Link
               href={cfg.cta.href}
-              className="flex items-center gap-2 px-6 py-3 bg-white text-on-surface rounded-full font-bold text-sm shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all"
+              className="flex items-center gap-2 px-6 py-3 bg-white text-on-surface rounded-lg font-bold text-sm shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all"
             >
               <Icon name={cfg.cta.icon} filled size={18} />
               {cfg.cta.label}
             </Link>
             <Link
               href={cfg.secondaryCta.href}
-              className="px-6 py-3 bg-white/20 backdrop-blur-md text-white rounded-full font-semibold text-sm hover:bg-white/30 transition-all active:scale-95"
+              className="px-6 py-3 bg-white/20 backdrop-blur-md text-white rounded-lg font-semibold text-sm hover:bg-white/30 transition-all active:scale-95"
             >
               {cfg.secondaryCta.label}
             </Link>

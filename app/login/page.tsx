@@ -30,7 +30,7 @@ export default function LoginPage() {
       <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="flex flex-col items-center mb-10">
-          <div className="w-16 h-16 rounded-2xl bg-primary flex items-center justify-center mb-4 shadow-card">
+          <div className="w-16 h-16 rounded-lg bg-primary flex items-center justify-center mb-4 shadow-card">
             <Icon name="shield_with_heart" filled size={32} className="text-white" />
           </div>
           <h1 className="text-2xl font-extrabold text-on-surface tracking-tight">Health Guard</h1>
@@ -40,14 +40,14 @@ export default function LoginPage() {
         </div>
 
         {/* Card */}
-        <div className="bg-surface-container-lowest rounded-xl shadow-card p-8 flex flex-col gap-4">
+        <div className="bg-surface-container-lowest rounded-lg shadow-card p-8 flex flex-col gap-4">
           <div>
             <h2 className="font-bold text-on-surface text-lg">Welcome back</h2>
             <p className="text-sm text-on-surface-variant mt-0.5">Sign in to access your health dashboard</p>
           </div>
 
           {error && (
-            <div className="flex items-center gap-2 px-4 py-3 bg-error/10 border border-error/20 rounded-xl">
+            <div className="flex items-center gap-2 px-4 py-3 bg-error/10 border border-error/20 rounded-lg">
               <Icon name="error" filled size={16} className="text-error shrink-0" />
               <p className="text-sm text-error">{error}</p>
             </div>
@@ -57,7 +57,7 @@ export default function LoginPage() {
           <button
             onClick={handleGoogleSignIn}
             disabled={loading}
-            className="flex items-center justify-center gap-3 w-full px-5 py-3.5 bg-on-surface text-surface rounded-full font-semibold text-sm hover:opacity-90 active:scale-95 transition-all disabled:opacity-50"
+            className="flex items-center justify-center gap-3 w-full px-5 py-3.5 bg-on-surface text-surface rounded-lg font-semibold text-sm hover:opacity-90 active:scale-95 transition-all disabled:opacity-50"
           >
             {loading ? (
               <span className="w-5 h-5 border-2 border-surface/30 border-t-surface rounded-full animate-spin" />
@@ -81,7 +81,7 @@ export default function LoginPage() {
           {/* Guest / demo mode */}
           <a
             href="/api/auth/guest"
-            className="flex items-center justify-center gap-2 w-full px-5 py-3.5 border-2 border-surface-container-high text-on-surface-variant rounded-full font-semibold text-sm hover:bg-surface-container-low hover:text-on-surface active:scale-95 transition-all"
+            className="flex items-center justify-center gap-2 w-full px-5 py-3.5 border-2 border-surface-container-high text-on-surface-variant rounded-lg font-semibold text-sm hover:bg-surface-container-low hover:text-on-surface active:scale-95 transition-all"
           >
             <Icon name="visibility" size={16} />
             View Demo (no sign-in)

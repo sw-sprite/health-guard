@@ -1,5 +1,9 @@
-import { differenceInHours } from 'date-fns'
-import type { CardState, EnvironmentData, MedicationLog, Medication } from './types'
+import { format } from 'date-fns'
+import type { CardState, EnvironmentData, Habit, HabitEntry } from './types'
+
+function today(): string {
+  return format(new Date(), 'yyyy-MM-dd')
+}
 
 export function evaluateAtmosphericStatus(env: EnvironmentData): CardState {
   const { aqi, pollenLevel, pollenTypes } = env
@@ -39,14 +43,16 @@ export function evaluateAtmosphericStatus(env: EnvironmentData): CardState {
 }
 
 export function evaluateTreatmentStatus(
-  logs: MedicationLog[],
-  medications: Medication[]
+  habits: Habit[],
+  entries: HabitEntry[]
 ): CardState {
-  if (!medications.length) {
+  const medications = habits.filter((h) => h.category === 'medication')
+
+  if (medications.length === 0) {
     return {
       id: 'treatment-window',
       status: 'safe',
-      message: 'No medications configured.',
+      message: 'No medications configured. Add one in the Log tab.',
       priority: 0,
       timestamp: new Date(),
       actionable: false,
@@ -54,15 +60,16 @@ export function evaluateTreatmentStatus(
   }
 
   const primaryMed = medications[0]
-  const recentLog = logs
-    .filter((l) => l.medicationId === primaryMed.id)
-    .sort((a, b) => new Date(b.loggedAt).getTime() - new Date(a.loggedAt).getTime())[0]
+  const todayEntry = entries.find(
+    (e) => e.habitId === primaryMed.id && e.date === today()
+  )
 
-  if (!recentLog) {
+  if (!todayEntry || todayEntry.status === 'pending') {
+    const freqHours = primaryMed.medicationFrequencyHours ?? 24
     return {
       id: 'treatment-window',
       status: 'warning',
-      message: `No ${primaryMed.name} logged yet. Log your first dose.`,
+      message: `${primaryMed.name} not logged today. Dose due every ${freqHours}h.`,
       priority: 1,
       timestamp: new Date(),
       actionable: true,
@@ -70,38 +77,33 @@ export function evaluateTreatmentStatus(
     }
   }
 
-  const hoursSince = differenceInHours(new Date(), new Date(recentLog.loggedAt))
-  const interval = primaryMed.frequencyHours
-
-  if (hoursSince > interval + 2) {
+  if (todayEntry.status === 'success') {
     return {
       id: 'treatment-window',
-      status: 'critical',
-      message: `${primaryMed.name} dose overdue by ${hoursSince - interval} hours.`,
-      priority: 2,
-      timestamp: new Date(),
-      actionable: true,
-      action: { label: 'Confirm Dosage', href: '/log' },
-    }
-  }
-
-  if (hoursSince > interval - 4) {
-    const hoursLeft = interval - hoursSince
-    return {
-      id: 'treatment-window',
-      status: 'warning',
-      message: `${primaryMed.name} due in ${hoursLeft} hour${hoursLeft !== 1 ? 's' : ''}.`,
-      priority: 1,
+      status: 'safe',
+      message: `${primaryMed.name} logged today. You're on track.`,
+      priority: 0,
       timestamp: new Date(),
       actionable: false,
     }
   }
 
-  const hoursLeft = interval - hoursSince
+  if (todayEntry.status === 'failed') {
+    return {
+      id: 'treatment-window',
+      status: 'critical',
+      message: `${primaryMed.name} marked as missed today.`,
+      priority: 2,
+      timestamp: new Date(),
+      actionable: true,
+      action: { label: 'Update Log', href: '/log' },
+    }
+  }
+
   return {
     id: 'treatment-window',
     status: 'safe',
-    message: `Next ${primaryMed.name} dose in ${hoursLeft} hours.`,
+    message: `${primaryMed.name} logged for today.`,
     priority: 0,
     timestamp: new Date(),
     actionable: false,

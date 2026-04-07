@@ -8,7 +8,8 @@
       "Bash(npm install:*)",
       "Bash(npm run:*)",
       "Bash(node -e \"const pkg = require\\('./node_modules/@supabase/auth-helpers-nextjs/package.json'\\); console.log\\(pkg.version\\)\")",
-      "Bash(node -e \"const m = require\\('@supabase/auth-helpers-nextjs'\\); console.log\\(Object.keys\\(m\\)\\)\")"
+      "Bash(node -e \"const m = require\\('@supabase/auth-helpers-nextjs'\\); console.log\\(Object.keys\\(m\\)\\)\")",
+      "Bash(npx tsc:*)"
     ]
   }
 }

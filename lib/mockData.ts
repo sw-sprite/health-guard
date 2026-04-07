@@ -1,6 +1,17 @@
-import type { EnvironmentData, MedicationLog, Notification, UserProfile } from './types'
+import { format, subDays } from 'date-fns'
+import type {
+  EnvironmentData,
+  Habit,
+  HabitEntry,
+  Notification,
+  UserProfile,
+} from './types'
 
+const today     = format(new Date(), 'yyyy-MM-dd')
+const yesterday = format(subDays(new Date(), 1), 'yyyy-MM-dd')
+const twoDaysAgo = format(subDays(new Date(), 2), 'yyyy-MM-dd')
 
+// ── User ──────────────────────────────────────────────────────────────────────
 
 export const MOCK_USER: UserProfile = {
   id: 'mock-user-1',
@@ -8,17 +19,10 @@ export const MOCK_USER: UserProfile = {
   email: 'alex@example.com',
   avatarUrl: undefined,
   city: 'Austin, TX',
-  medications: [
-    {
-      id: 'med-1',
-      name: 'Cetirizine',
-      dosage: '10mg',
-      frequencyHours: 24,
-    },
-  ],
 }
 
-// Safe environment — low pollen, clean air
+// ── Environment ───────────────────────────────────────────────────────────────
+
 export const MOCK_ENV_SAFE: EnvironmentData = {
   aqi: 42,
   pollenLevel: 'low',
@@ -30,7 +34,6 @@ export const MOCK_ENV_SAFE: EnvironmentData = {
   conditionIcon: 'partly_cloudy_day',
 }
 
-// Warning environment — high pollen
 export const MOCK_ENV_WARNING: EnvironmentData = {
   aqi: 98,
   pollenLevel: 'high',
@@ -42,30 +45,7 @@ export const MOCK_ENV_WARNING: EnvironmentData = {
   conditionIcon: 'sunny',
 }
 
-export const MOCK_MEDICATION_LOGS: MedicationLog[] = [
-  {
-    id: 'log-1',
-    type: 'medication',
-    medicationId: 'med-1',
-    medicationName: 'Cetirizine 10mg',
-    loggedAt: new Date(Date.now() - 4 * 60 * 60 * 1000),
-    notes: 'Taken with breakfast',
-  },
-  {
-    id: 'log-2',
-    type: 'medication',
-    medicationId: 'med-1',
-    medicationName: 'Cetirizine 10mg',
-    loggedAt: new Date(Date.now() - 28 * 60 * 60 * 1000),
-  },
-  {
-    id: 'log-3',
-    type: 'medication',
-    medicationId: 'med-1',
-    medicationName: 'Cetirizine 10mg',
-    loggedAt: new Date(Date.now() - 52 * 60 * 60 * 1000),
-  },
-]
+// ── Notifications ─────────────────────────────────────────────────────────────
 
 export const MOCK_NOTIFICATIONS: Notification[] = [
   {
@@ -79,7 +59,7 @@ export const MOCK_NOTIFICATIONS: Notification[] = [
   {
     id: 'notif-2',
     title: 'Medication Reminder',
-    message: 'Your next Cetirizine dose is in 20 hours.',
+    message: 'Your next Cetirizine dose is due today.',
     type: 'info',
     read: false,
     createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000),
@@ -94,8 +74,76 @@ export const MOCK_NOTIFICATIONS: Notification[] = [
   },
 ]
 
+// ── Habits ────────────────────────────────────────────────────────────────────
+
+export const MOCK_HABITS: Habit[] = [
+  {
+    id: 'habit-1',
+    name: 'Cetirizine 10mg',
+    icon: 'medication',
+    category: 'medication',
+    goalAmount: 1,
+    goalUnit: 'times',
+    goalPer: 'day',
+    repeat: { type: 'daily', days: [] },
+    timeOfDay: ['morning'],
+    startDate: format(subDays(new Date(), 30), 'yyyy-MM-dd'),
+    endCondition: 'never',
+    reminderTime: '08:00 AM',
+    medicationDosage: '10mg',
+    medicationFrequencyHours: 24,
+  },
+  {
+    id: 'habit-2',
+    name: 'Drink Water',
+    icon: 'water_drop',
+    category: 'health',
+    goalAmount: 2000,
+    goalUnit: 'ml',
+    goalPer: 'day',
+    repeat: { type: 'daily', days: [] },
+    timeOfDay: ['morning', 'afternoon', 'evening'],
+    startDate: format(subDays(new Date(), 14), 'yyyy-MM-dd'),
+    endCondition: 'never',
+    reminderTime: '08:00 AM',
+  },
+  {
+    id: 'habit-3',
+    name: 'Meditate',
+    icon: 'self_improvement',
+    category: 'lifestyle',
+    goalAmount: 10,
+    goalUnit: 'minutes',
+    goalPer: 'day',
+    repeat: { type: 'daily', days: [1, 2, 3, 4, 5] }, // Mon–Fri
+    timeOfDay: ['morning'],
+    startDate: format(subDays(new Date(), 7), 'yyyy-MM-dd'),
+    endCondition: 'never',
+    reminderTime: '07:00 AM',
+  },
+]
+
+// ── Habit Entries ─────────────────────────────────────────────────────────────
+
+export const MOCK_HABIT_ENTRIES: HabitEntry[] = [
+  // Today
+  { habitId: 'habit-1', date: today,      status: 'pending',  amount: 0 },
+  { habitId: 'habit-2', date: today,      status: 'pending',  amount: 600 },
+  { habitId: 'habit-3', date: today,      status: 'success',  amount: 10 },
+  // Yesterday
+  { habitId: 'habit-1', date: yesterday,  status: 'success',  amount: 1 },
+  { habitId: 'habit-2', date: yesterday,  status: 'success',  amount: 2000 },
+  { habitId: 'habit-3', date: yesterday,  status: 'skipped',  amount: 0 },
+  // Two days ago
+  { habitId: 'habit-1', date: twoDaysAgo, status: 'success',  amount: 1 },
+  { habitId: 'habit-2', date: twoDaysAgo, status: 'failed',   amount: 800 },
+  { habitId: 'habit-3', date: twoDaysAgo, status: 'success',  amount: 10 },
+]
+
+// ── Weekly Wellness (mock — Phase 2) ──────────────────────────────────────────
+
 export const MOCK_WEEKLY_WELLNESS = {
-  sleep: { hours: 7.2, change: 8 },
+  sleep:       { hours: 7.2, change: 8 },
   activeHours: { hours: 1.8, change: -12 },
-  hydration: { glasses: 6, change: 20 },
+  hydration:   { glasses: 6, change: 20 },
 }

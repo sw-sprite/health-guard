@@ -1,3 +1,5 @@
+// ── Status / Environment ───────────────────────────────────────────────────────
+
 export type CardStatus = 'safe' | 'warning' | 'critical'
 
 export interface CardState {
@@ -7,10 +9,7 @@ export interface CardState {
   priority: number // 0=safe 1=warning 2=critical
   timestamp: Date
   actionable: boolean
-  action?: {
-    label: string
-    href: string
-  }
+  action?: { label: string; href: string }
 }
 
 export interface PollenTypes {
@@ -31,23 +30,22 @@ export interface EnvironmentData {
   conditionIcon: string
 }
 
-export interface Medication {
+// ── User ──────────────────────────────────────────────────────────────────────
+
+export interface UserProfile {
   id: string
   name: string
-  dosage: string
-  frequencyHours: number
+  email: string
+  avatarUrl?: string
+  city: string
 }
 
-export type LogType = 'medication' | 'hydration' | 'exercise' | 'note'
-
-export interface MedicationLog {
-  id: string
-  type: LogType
-  medicationId?: string   // only set for medication entries
-  medicationName: string  // display label for all types
-  loggedAt: Date
-  notes?: string
+export interface AppUser {
+  profile: UserProfile
+  isMock: boolean
 }
+
+// ── Notifications ─────────────────────────────────────────────────────────────
 
 export interface Notification {
   id: string
@@ -58,16 +56,52 @@ export interface Notification {
   createdAt: Date
 }
 
-export interface UserProfile {
+// ── Habits ────────────────────────────────────────────────────────────────────
+
+export type HabitCategory   = 'medication' | 'health' | 'lifestyle'
+export type HabitStatus     = 'pending' | 'success' | 'skipped' | 'failed'
+export type GoalPer         = 'day' | 'week' | 'month' | 'year'
+export type EndCondition    = 'never' | 'on_date'
+
+export interface HabitRepeatDaily {
+  type: 'daily'
+  days: number[] // 0=Sun … 6=Sat; empty = every day
+}
+export interface HabitRepeatMonthly {
+  type: 'monthly'
+  days: number[] // 1 … 31
+}
+export interface HabitRepeatInterval {
+  type: 'interval'
+  everyDays: number
+}
+export type HabitRepeat =
+  | HabitRepeatDaily
+  | HabitRepeatMonthly
+  | HabitRepeatInterval
+
+export interface Habit {
   id: string
   name: string
-  email: string
-  avatarUrl?: string
-  city: string
-  medications: Medication[]
+  icon: string
+  category: HabitCategory
+  goalAmount: number
+  goalUnit: string          // free text: "times", "ml", "minutes", etc.
+  goalPer: GoalPer
+  repeat: HabitRepeat
+  timeOfDay: ('morning' | 'afternoon' | 'evening')[]
+  startDate: string         // YYYY-MM-DD
+  endCondition: EndCondition
+  endDate?: string          // YYYY-MM-DD — only when endCondition = 'on_date'
+  reminderTime: string      // display-only e.g. "08:00 AM"
+  // medication-specific (undefined for non-medication habits)
+  medicationDosage?: string
+  medicationFrequencyHours?: number
 }
 
-export interface AppUser {
-  profile: UserProfile
-  isMock: boolean
+export interface HabitEntry {
+  habitId: string
+  date: string   // YYYY-MM-DD
+  status: HabitStatus
+  amount: number
 }

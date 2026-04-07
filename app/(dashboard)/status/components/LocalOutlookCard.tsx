@@ -9,7 +9,7 @@ interface LocalOutlookCardProps {
 
 export default function LocalOutlookCard({ env }: LocalOutlookCardProps) {
   return (
-    <div className="rounded-xl p-6 shadow-card bg-gradient-to-br from-secondary to-secondary-container/80 h-full flex flex-col justify-between min-h-[180px]">
+    <div className="rounded-lg p-6 shadow-card bg-gradient-to-br from-secondary to-secondary-container/80 h-full flex flex-col justify-between min-h-[180px]">
       {/* Location */}
       <div className="flex items-center gap-1.5 text-white/80">
         <Icon name="location_on" filled size={16} />

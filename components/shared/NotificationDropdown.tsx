@@ -38,7 +38,7 @@ export default function NotificationDropdown({
   return (
     <div
       ref={ref}
-      className="absolute right-0 top-12 w-80 bg-surface-container-lowest rounded-xl shadow-card-hover border border-surface-container-high overflow-hidden z-50"
+      className="absolute right-0 top-12 w-80 bg-surface-container-lowest rounded-lg shadow-card-hover border border-surface-container-high overflow-hidden z-50"
     >
       <div className="px-4 py-3 border-b border-surface-container flex items-center justify-between">
         <span className="font-semibold text-sm text-on-surface">Notifications</span>

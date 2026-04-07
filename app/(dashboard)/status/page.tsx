@@ -12,7 +12,7 @@ import { staggerContainer, staggerItem } from '@/lib/animations'
 import Icon from '@/components/ui/Icon'
 
 export default function StatusPage() {
-  const { user, env, logs, cardStates, heroStatus, toggleEnv, envMode } = useApp()
+  const { user, env, habits, habitEntries, cardStates, heroStatus, toggleEnv, envMode } = useApp()
 
   const atmosphericState = cardStates.find((c) => c.id === 'atmospheric-intelligence')!
   const treatmentState = cardStates.find((c) => c.id === 'treatment-window')!
@@ -23,7 +23,7 @@ export default function StatusPage() {
       <div className="mb-6 flex items-center justify-end">
         <button
           onClick={toggleEnv}
-          className="flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-full bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all border border-surface-container-high"
+          className="flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-lg bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all border border-surface-container-high"
         >
           <Icon name={envMode === 'safe' ? 'warning' : 'check_circle'} size={14} />
           Demo: Switch to {envMode === 'safe' ? 'Warning' : 'Safe'} mode
@@ -65,8 +65,8 @@ export default function StatusPage() {
         <motion.div variants={staggerItem} className="md:col-span-4">
           <TreatmentWindowCard
             cardState={treatmentState}
-            logs={logs}
-            medications={user.profile.medications}
+            habits={habits}
+            habitEntries={habitEntries}
           />
         </motion.div>
 

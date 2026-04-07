@@ -1,198 +1,541 @@
 'use client'
 
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { useApp } from '@/components/providers/AppProvider'
-import { formatDistanceToNow } from 'date-fns'
+import { useState, useEffect } from 'react'
+import { addDays, differenceInDays, format, parseISO, startOfWeek, subDays } from 'date-fns'
+import { AnimatePresence, motion } from 'framer-motion'
 import Icon from '@/components/ui/Icon'
-import { staggerContainer, staggerItem } from '@/lib/animations'
-import type { LogType } from '@/lib/types'
 import { cn } from '@/lib/utils'
+import type { Habit, HabitEntry, HabitStatus } from '@/lib/types'
+import AddHabitModal from '@/components/log/AddHabitModal'
+import { useApp } from '@/components/providers/AppProvider'
 
-const QUICK_LOGS: { id: LogType; label: string; icon: string; color: string; bg: string; border: string }[] = [
-  { id: 'medication', label: 'Medicine', icon: 'medication', color: 'text-primary', bg: 'bg-primary/10', border: 'border-primary/20' },
-  { id: 'hydration', label: 'Hydration', icon: 'water_drop', color: 'text-secondary', bg: 'bg-secondary/10', border: 'border-secondary/20' },
-  { id: 'exercise', label: 'Exercise', icon: 'fitness_center', color: 'text-tertiary', bg: 'bg-tertiary/10', border: 'border-tertiary/20' },
-]
+// ── Helpers ───────────────────────────────────────────────────────────────────
 
-const LOG_TYPE_CONFIG: Record<LogType, { icon: string; color: string; bg: string }> = {
-  medication: { icon: 'medication', color: 'text-primary', bg: 'bg-primary/10' },
-  hydration:  { icon: 'water_drop', color: 'text-secondary', bg: 'bg-secondary/10' },
-  exercise:   { icon: 'fitness_center', color: 'text-tertiary', bg: 'bg-tertiary/10' },
-  note:       { icon: 'edit_note', color: 'text-on-surface-variant', bg: 'bg-surface-container-high' },
+function fmtDate(d: Date): string {
+  return format(d, 'yyyy-MM-dd')
 }
 
+function isHabitActiveForDate(habit: Habit, date: Date): boolean {
+  const dateStr = fmtDate(date)
+  if (dateStr < habit.startDate) return false
+  if (habit.endCondition === 'on_date' && habit.endDate && dateStr > habit.endDate) return false
+
+  const { repeat } = habit
+  if (repeat.type === 'daily') {
+    return repeat.days.length === 0 || repeat.days.includes(date.getDay())
+  }
+  if (repeat.type === 'monthly') {
+    return repeat.days.includes(date.getDate())
+  }
+  const start = parseISO(habit.startDate)
+  const diff = differenceInDays(date, start)
+  return diff >= 0 && diff % repeat.everyDays === 0
+}
+
+function frequencyText(habit: Habit): string {
+  const { repeat } = habit
+  if (repeat.type === 'daily') {
+    if (repeat.days.length === 0 || repeat.days.length === 7) return 'Daily'
+    const names = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+    return [...repeat.days].sort().map((d) => names[d]).join(', ')
+  }
+  if (repeat.type === 'monthly') return 'Monthly'
+  return `Every ${repeat.everyDays} day${repeat.everyDays !== 1 ? 's' : ''}`
+}
+
+const STATUS_CONFIG: Record<
+  HabitStatus,
+  { label: string; textColor: string; bgColor: string; dotColor: string }
+> = {
+  pending: {
+    label: 'Pending',
+    textColor: 'text-on-surface-variant',
+    bgColor: 'bg-surface-container-high',
+    dotColor: 'bg-on-surface-variant/40',
+  },
+  success: {
+    label: 'Success',
+    textColor: 'text-secondary',
+    bgColor: 'bg-secondary/15',
+    dotColor: 'bg-secondary',
+  },
+  skipped: {
+    label: 'Skipped',
+    textColor: 'text-tertiary',
+    bgColor: 'bg-tertiary/15',
+    dotColor: 'bg-tertiary',
+  },
+  failed: {
+    label: 'Fail',
+    textColor: 'text-error',
+    bgColor: 'bg-error/10',
+    dotColor: 'bg-error',
+  },
+}
+
+const HABIT_COLORS = [
+  { iconColor: 'text-secondary', iconBg: 'bg-secondary/15' },
+  { iconColor: 'text-tertiary',  iconBg: 'bg-tertiary/15'  },
+  { iconColor: 'text-primary',   iconBg: 'bg-primary/10'   },
+  { iconColor: 'text-error',     iconBg: 'bg-error/10'     },
+]
+
+// ── Component ─────────────────────────────────────────────────────────────────
+
 export default function LogPage() {
-  const { user, logs, addLog } = useApp()
-  const [notes, setNotes] = useState('')
-  const [success, setSuccess] = useState<string | null>(null)
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const { habits, habitEntries, addHabit, updateHabit, deleteHabit, upsertHabitEntry } = useApp()
+  const todayStr = fmtDate(new Date())
 
-  const primaryMed = user.profile.medications[0]
+  const [selectedDate, setSelectedDate] = useState(todayStr)
+  const [weekStart, setWeekStart] = useState(() =>
+    startOfWeek(new Date(), { weekStartsOn: 1 })
+  )
+  const [modalOpen, setModalOpen] = useState(false)
+  const [editingHabit, setEditingHabit] = useState<Habit | null>(null)
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null)
+  const [pendingAmounts, setPendingAmounts] = useState<Record<string, string>>({})
 
-  function showSuccess(msg: string) {
-    setSuccess(msg)
-    setTimeout(() => setSuccess(null), 3000)
+  useEffect(() => {
+    if (!openMenuId) return
+    function close() { setOpenMenuId(null) }
+    document.addEventListener('click', close)
+    return () => document.removeEventListener('click', close)
+  }, [openMenuId])
+
+  const weekDays = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i))
+  const isReadOnly = selectedDate < todayStr
+
+  // ── Entry helpers ────────────────────────────────────────────────────────────
+
+  function getEntry(habitId: string): HabitEntry | undefined {
+    return habitEntries.find((e) => e.habitId === habitId && e.date === selectedDate)
   }
 
-  async function handleQuickLog(type: LogType) {
-    setIsSubmitting(true)
+  function getStatus(habitId: string): HabitStatus {
+    return getEntry(habitId)?.status ?? 'pending'
+  }
 
-    if (type === 'medication' && primaryMed) {
-      await addLog({ type: 'medication', medicationId: primaryMed.id, medicationName: `${primaryMed.name} ${primaryMed.dosage}`, notes: notes.trim() || undefined })
-      showSuccess(`${primaryMed.name} dose logged!`)
-    } else if (type === 'hydration') {
-      await addLog({ type: 'hydration', medicationName: 'Hydration', notes: notes.trim() || undefined })
-      showSuccess('Hydration logged!')
+  function getAmount(habitId: string): number {
+    return getEntry(habitId)?.amount ?? 0
+  }
+
+  async function confirmAmount(habit: Habit) {
+    const raw = pendingAmounts[habit.id] ?? String(getAmount(habit.id))
+    const amt = Math.max(0, parseInt(raw) || 0)
+    await upsertHabitEntry({ habitId: habit.id, date: selectedDate, status: 'success', amount: amt })
+    setPendingAmounts((prev) => { const n = { ...prev }; delete n[habit.id]; return n })
+  }
+
+  async function clearEntry(habitId: string) {
+    await upsertHabitEntry({ habitId, date: selectedDate, status: 'pending', amount: 0 })
+    setPendingAmounts((prev) => { const n = { ...prev }; delete n[habitId]; return n })
+  }
+
+  async function setStatus(habitId: string, status: HabitStatus) {
+    const amount = getAmount(habitId)
+    await upsertHabitEntry({ habitId, date: selectedDate, status, amount })
+    setOpenMenuId(null)
+  }
+
+  // ── Habit CRUD ───────────────────────────────────────────────────────────────
+
+  async function saveHabit(habit: Habit) {
+    if (editingHabit) {
+      await updateHabit(habit)
     } else {
-      await addLog({ type: 'exercise', medicationName: 'Exercise', notes: notes.trim() || undefined })
-      showSuccess('Exercise logged!')
+      const { id: _id, ...rest } = habit
+      await addHabit(rest)
     }
-
-    setNotes('')
-    setIsSubmitting(false)
+    setEditingHabit(null)
+    setModalOpen(false)
   }
 
-  async function handleTextLog() {
-    if (!notes.trim()) return
-    setIsSubmitting(true)
-
-    const lower = notes.toLowerCase()
-    const isMed =
-      primaryMed &&
-      (lower.includes(primaryMed.name.toLowerCase()) ||
-        /\d+\s*mg/i.test(notes) ||
-        ['pill', 'tablet', 'capsule', 'dose', 'supplement'].some((k) => lower.includes(k)))
-
-    if (isMed && primaryMed) {
-      await addLog({ type: 'medication', medicationId: primaryMed.id, medicationName: `${primaryMed.name} ${primaryMed.dosage}`, notes: notes.trim() })
-      showSuccess('Medication dose logged!')
-    } else {
-      const label = notes.trim().slice(0, 40) + (notes.trim().length > 40 ? '…' : '')
-      await addLog({ type: 'note', medicationName: label, notes: notes.trim() })
-      showSuccess('Note logged!')
-    }
-
-    setNotes('')
-    setIsSubmitting(false)
+  async function handleDeleteHabit(id: string) {
+    await deleteHabit(id)
+    setEditingHabit(null)
+    setModalOpen(false)
   }
 
-  const recentLogs = [...logs]
-    .sort((a, b) => new Date(b.loggedAt).getTime() - new Date(a.loggedAt).getTime())
-    .slice(0, 10)
+  function openAddModal() {
+    setEditingHabit(null)
+    setModalOpen(true)
+  }
+
+  function openEditModal(habit: Habit) {
+    setEditingHabit(habit)
+    setModalOpen(true)
+    setOpenMenuId(null)
+  }
+
+  // ── Derived ──────────────────────────────────────────────────────────────────
+
+  const selectedDateObj = parseISO(selectedDate)
+  const activeHabits = habits.filter((h) => isHabitActiveForDate(h, selectedDateObj))
+
+  const todayHabits = habits.filter((h) => isHabitActiveForDate(h, parseISO(todayStr)))
+  const todaySuccesses = todayHabits.filter(
+    (h) => habitEntries.find((e) => e.habitId === h.id && e.date === todayStr)?.status === 'success'
+  )
+  const scorePercent =
+    todayHabits.length === 0
+      ? 0
+      : Math.round((todaySuccesses.length / todayHabits.length) * 100)
+
+  // ── Render ───────────────────────────────────────────────────────────────────
 
   return (
-    <div className="max-w-2xl mx-auto px-4 md:px-6 py-8">
-      <motion.div
-        variants={staggerContainer}
-        initial="initial"
-        animate="animate"
-        className="flex flex-col gap-6"
-      >
-        {/* Header */}
-        <motion.div variants={staggerItem}>
-          <p className="text-xs font-bold uppercase tracking-widest text-on-surface-variant/60 mb-1">
-            Medication & Activity Log
-          </p>
-          <h1 className="text-3xl font-extrabold text-on-surface tracking-tight">Log Entry</h1>
-        </motion.div>
+    <div className="px-6 py-8 max-w-screen-xl mx-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6 items-start">
 
-        {/* Success toast */}
-        {success && (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="flex items-center gap-3 px-5 py-3.5 bg-secondary/10 border border-secondary/30 rounded-xl"
-          >
-            <Icon name="check_circle" filled size={20} className="text-secondary" />
-            <p className="text-sm font-semibold text-secondary">{success}</p>
-          </motion.div>
-        )}
+        {/* ── Left column ─────────────────────────────────────────────────── */}
+        <div className="flex flex-col gap-5">
 
-        {/* Text input */}
-        <motion.div variants={staggerItem} className="bg-surface-container-low rounded-xl overflow-hidden shadow-card">
-          <textarea
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-            placeholder="Type anything — 'took my cetirizine', 'had 2 glasses of water', 'went for a run'..."
-            className="w-full bg-transparent px-6 py-5 text-on-surface placeholder:text-on-surface-variant/50 text-base resize-none outline-none leading-relaxed min-h-[120px]"
-            rows={4}
-          />
-          <div className="flex items-center justify-between px-6 py-3 border-t border-surface-container">
-            <p className="text-xs text-on-surface-variant/50">
-              {notes.length > 0 ? `${notes.length} chars` : 'Free-form logging'}
+          {/* Page header */}
+          <div>
+            <p className="text-xs font-bold uppercase tracking-widest text-on-surface-variant/60 mb-1">
+              Tracker
             </p>
-            <button
-              onClick={handleTextLog}
-              disabled={!notes.trim() || isSubmitting}
-              className="flex items-center gap-2 px-5 py-2 bg-on-surface text-surface rounded-full text-sm font-semibold disabled:opacity-40 hover:opacity-90 active:scale-95 transition-all"
+            <h1 className="text-3xl font-extrabold text-on-surface tracking-tight">
+              Daily Activity Log
+            </h1>
+          </div>
+
+          {/* Date strip */}
+          <div className="bg-surface-container-lowest rounded-lg shadow-card px-3 py-3">
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => setWeekStart((prev) => subDays(prev, 7))}
+                className="w-8 h-8 rounded flex items-center justify-center hover:bg-surface-container-high transition-colors shrink-0"
+              >
+                <Icon name="chevron_left" size={20} className="text-on-surface-variant" />
+              </button>
+
+              <div className="flex-1 grid grid-cols-7 gap-1">
+                {weekDays.map((day) => {
+                  const dateStr = fmtDate(day)
+                  const isSelected = dateStr === selectedDate
+                  const isToday = dateStr === todayStr
+                  return (
+                    <button
+                      key={dateStr}
+                      onClick={() => setSelectedDate(dateStr)}
+                      className={cn(
+                        'flex flex-col items-center gap-0.5 py-2 rounded transition-all',
+                        isSelected
+                          ? 'bg-primary text-white'
+                          : isToday
+                          ? 'bg-primary/10 text-primary'
+                          : 'text-on-surface-variant hover:bg-surface-container-high'
+                      )}
+                    >
+                      <span className="text-[10px] font-bold tracking-wide">
+                        {format(day, 'EEE').toUpperCase()}
+                      </span>
+                      <span className="text-sm font-bold">{format(day, 'd')}</span>
+                    </button>
+                  )
+                })}
+              </div>
+
+              <button
+                onClick={() => setWeekStart((prev) => addDays(prev, 7))}
+                className="w-8 h-8 rounded flex items-center justify-center hover:bg-surface-container-high transition-colors shrink-0"
+              >
+                <Icon name="chevron_right" size={20} className="text-on-surface-variant" />
+              </button>
+            </div>
+          </div>
+
+          {/* Habit table */}
+          <div className="bg-surface-container-lowest rounded-lg shadow-card overflow-visible">
+
+            {/* Table header */}
+            <div
+              className="grid items-center px-6 py-4 border-b border-surface-container-high"
+              style={{ gridTemplateColumns: '1fr 100px 130px 110px 180px' }}
             >
-              <Icon name="send" filled size={14} />
-              Log
+              {['Activity Name', 'Progress', 'Frequency', 'Status', 'Quick Actions'].map(
+                (col, i) => (
+                  <span
+                    key={col}
+                    className={cn(
+                      'text-xs font-bold uppercase tracking-wider text-on-surface-variant/60',
+                      i === 4 && 'text-right pr-1'
+                    )}
+                  >
+                    {col}
+                  </span>
+                )
+              )}
+            </div>
+
+            {/* Rows */}
+            {activeHabits.length === 0 ? (
+              <div className="py-14 text-center">
+                <Icon name="event_busy" size={32} className="text-on-surface-variant/30 mx-auto mb-2" />
+                <p className="text-sm text-on-surface-variant">No habits scheduled for this day.</p>
+              </div>
+            ) : (
+              activeHabits.map((habit, idx) => {
+                const status = getStatus(habit.id)
+                const amount = getAmount(habit.id)
+                const statusCfg = STATUS_CONFIG[status]
+                const colorCfg = HABIT_COLORS[idx % HABIT_COLORS.length]
+                const pendingAmt =
+                  pendingAmounts[habit.id] !== undefined
+                    ? pendingAmounts[habit.id]
+                    : String(amount)
+                const isMenuOpen = openMenuId === habit.id
+
+                return (
+                  <div
+                    key={habit.id}
+                    className="group/row grid items-center px-6 py-4 border-b border-surface-container-high/50 last:border-0 hover:bg-surface-container-low/40 transition-colors"
+                    style={{ gridTemplateColumns: '1fr 100px 130px 110px 180px' }}
+                  >
+                    {/* Activity name */}
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div
+                        className={cn(
+                          'w-9 h-9 rounded flex items-center justify-center shrink-0',
+                          colorCfg.iconBg
+                        )}
+                      >
+                        <Icon name={habit.icon} filled size={18} className={colorCfg.iconColor} />
+                      </div>
+                      <span className="font-semibold text-on-surface text-sm truncate">
+                        {habit.name}
+                      </span>
+                    </div>
+
+                    {/* Progress */}
+                    <span className="text-sm text-on-surface-variant tabular-nums">
+                      {amount}/{habit.goalAmount}
+                    </span>
+
+                    {/* Frequency */}
+                    <span className="text-sm text-on-surface-variant">{frequencyText(habit)}</span>
+
+                    {/* Status badge */}
+                    <div>
+                      <span
+                        className={cn(
+                          'inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold',
+                          statusCfg.bgColor,
+                          statusCfg.textColor
+                        )}
+                      >
+                        {statusCfg.label}
+                      </span>
+                    </div>
+
+                    {/* Quick actions */}
+                    <div className="flex items-center justify-end gap-2">
+
+                      {isReadOnly ? (
+                        <span className="text-xs text-on-surface-variant/40 italic">read-only</span>
+                      ) : status === 'pending' ? (
+                        /* Pending: hidden until row hover */
+                        <div className="flex items-center rounded border border-surface-container-high overflow-hidden bg-surface-container-low opacity-0 group-hover/row:opacity-100 transition-all">
+                          <input
+                            type="number"
+                            min={0}
+                            max={999}
+                            value={pendingAmt}
+                            onChange={(e) =>
+                              setPendingAmounts((prev) => ({
+                                ...prev,
+                                [habit.id]: e.target.value,
+                              }))
+                            }
+                            onKeyDown={(e) => e.key === 'Enter' && confirmAmount(habit)}
+                            className="w-14 px-2 py-1.5 text-sm text-on-surface bg-transparent outline-none text-center"
+                          />
+                          <button
+                            onClick={() => confirmAmount(habit)}
+                            title="Confirm"
+                            className="px-2 py-1.5 bg-secondary/20 hover:bg-secondary/35 transition-colors border-l border-surface-container-high"
+                          >
+                            <Icon name="check" size={14} className="text-secondary" />
+                          </button>
+                        </div>
+                      ) : (
+                        /* Non-pending: Clear button — shows on hover */
+                        <button
+                          onClick={() => clearEntry(habit.id)}
+                          className="flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-semibold text-on-surface-variant border border-surface-container-high hover:bg-surface-container-high transition-all opacity-0 group-hover/row:opacity-100"
+                        >
+                          <Icon name="close" size={13} />
+                          Clear
+                        </button>
+                      )}
+
+                      {/* Three-dot menu — shows on hover (or when open) */}
+                      <div className="relative">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            setOpenMenuId(isMenuOpen ? null : habit.id)
+                          }}
+                          disabled={isReadOnly}
+                          className={cn(
+                            'w-8 h-8 rounded flex items-center justify-center transition-all',
+                            isReadOnly
+                              ? 'opacity-30 cursor-not-allowed'
+                              : isMenuOpen
+                              ? 'bg-surface-container-high opacity-100'
+                              : 'hover:bg-surface-container-high opacity-0 group-hover/row:opacity-100'
+                          )}
+                        >
+                          <Icon name="more_vert" size={18} className="text-on-surface-variant" />
+                        </button>
+
+                        <AnimatePresence>
+                          {isMenuOpen && (
+                            <motion.div
+                              initial={{ opacity: 0, scale: 0.95, y: -4 }}
+                              animate={{ opacity: 1, scale: 1, y: 0 }}
+                              exit={{ opacity: 0, scale: 0.95, y: -4 }}
+                              transition={{ duration: 0.12 }}
+                              className="absolute right-0 top-full mt-1 w-44 bg-surface-container-lowest rounded-lg shadow-lg border border-surface-container-high z-50 overflow-hidden"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <p className="px-4 pt-3 pb-1 text-[10px] font-bold uppercase tracking-wider text-on-surface-variant/50">
+                                Set Status
+                              </p>
+                              {(
+                                ['pending', 'success', 'skipped', 'failed'] as HabitStatus[]
+                              ).map((s) => (
+                                <button
+                                  key={s}
+                                  onClick={() => setStatus(habit.id, s)}
+                                  className={cn(
+                                    'flex items-center gap-3 w-full px-4 py-2 text-sm transition-colors hover:bg-surface-container-low',
+                                    status === s
+                                      ? 'font-semibold text-on-surface'
+                                      : 'text-on-surface-variant'
+                                  )}
+                                >
+                                  <span
+                                    className={cn(
+                                      'w-2 h-2 rounded-full shrink-0',
+                                      STATUS_CONFIG[s].dotColor
+                                    )}
+                                  />
+                                  {STATUS_CONFIG[s].label}
+                                  {status === s && (
+                                    <Icon name="check" size={13} className="ml-auto text-primary" />
+                                  )}
+                                </button>
+                              ))}
+                              <div className="border-t border-surface-container-high mx-3 my-1" />
+                              <button
+                                onClick={() => openEditModal(habit)}
+                                className="flex items-center gap-3 w-full px-4 py-2.5 pb-3 text-sm text-on-surface-variant hover:bg-surface-container-low transition-colors"
+                              >
+                                <Icon name="edit" size={14} />
+                                Edit Habit
+                              </button>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    </div>
+                  </div>
+                )
+              })
+            )}
+          </div>
+
+          {/* Add habit button */}
+          <div>
+            <button
+              onClick={openAddModal}
+              className="flex items-center gap-2 px-5 py-3 rounded bg-primary text-white font-semibold text-sm hover:opacity-90 active:scale-95 transition-all shadow-card"
+            >
+              <Icon name="add" size={18} />
+              Add New Habit
             </button>
           </div>
-        </motion.div>
+        </div>
 
-        {/* Quick log cards */}
-        <motion.div variants={staggerItem}>
-          <p className="text-xs font-bold uppercase tracking-widest text-on-surface-variant/60 mb-3">Quick Log</p>
-          <div className="grid grid-cols-3 gap-3">
-            {QUICK_LOGS.map((q) => (
-              <button
-                key={q.id}
-                onClick={() => handleQuickLog(q.id)}
-                disabled={isSubmitting}
-                className={cn(
-                  'flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all hover:scale-105 active:scale-95 disabled:opacity-50',
-                  q.bg, q.border
-                )}
-              >
-                <Icon name={q.icon} filled size={28} className={q.color} />
-                <span className={cn('text-sm font-semibold', q.color)}>{q.label}</span>
-                {q.id === 'medication' && primaryMed && (
-                  <span className="text-xs text-on-surface-variant text-center leading-tight">
-                    {primaryMed.name} {primaryMed.dosage}
-                  </span>
-                )}
-              </button>
-            ))}
-          </div>
-        </motion.div>
+        {/* ── Right sidebar (mocked) ───────────────────────────────────────── */}
+        <div className="flex flex-col gap-4">
 
-        {/* Recent activity */}
-        <motion.div variants={staggerItem}>
-          <p className="text-xs font-bold uppercase tracking-widest text-on-surface-variant/60 mb-3">Recent Activity</p>
-          <div className="flex flex-col gap-2">
-            {recentLogs.length === 0 && (
-              <p className="text-sm text-on-surface-variant py-4 text-center">
-                No logs yet — log your first entry above!
+          {/* Curator's Insight */}
+          <div className="bg-surface-container-lowest rounded-lg shadow-card overflow-hidden">
+            <div className="px-5 pt-5 pb-4">
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant/60">
+                  Curator's Insight
+                </p>
+                <button className="w-7 h-7 rounded-lg bg-surface-container-high flex items-center justify-center hover:bg-surface-container transition-colors">
+                  <Icon name="add" size={15} className="text-on-surface-variant" />
+                </button>
+              </div>
+              <h3 className="font-bold text-on-surface mb-2">Hydration Spike</h3>
+              <p className="text-xs text-on-surface-variant leading-relaxed">
+                Your water intake has increased by 15% this week. Studies show this level of
+                hydration can improve cognitive focus by up to 20% during afternoon peaks.
               </p>
-            )}
-            {recentLogs.map((log) => {
-              const cfg = LOG_TYPE_CONFIG[log.type ?? 'medication']
-              return (
-                <div
-                  key={log.id}
-                  className="flex items-center gap-4 px-5 py-4 bg-surface-container-low rounded-xl"
-                >
-                  <div className={cn('w-10 h-10 rounded-full flex items-center justify-center shrink-0', cfg.bg)}>
-                    <Icon name={cfg.icon} filled size={18} className={cfg.color} />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-on-surface text-sm truncate">{log.medicationName}</p>
-                    {log.notes && (
-                      <p className="text-xs text-on-surface-variant mt-0.5 truncate">{log.notes}</p>
-                    )}
-                  </div>
-                  <p className="text-xs text-on-surface-variant/60 shrink-0">
-                    {formatDistanceToNow(new Date(log.loggedAt), { addSuffix: true })}
-                  </p>
-                </div>
-              )
-            })}
+            </div>
+            <div className="mx-5 mb-4 p-4 bg-surface-container-low rounded">
+              <div className="flex items-center gap-2 mb-1.5">
+                <span className="text-yellow-400 text-xs">★</span>
+                <p className="text-xs font-semibold text-on-surface">Wellness Tip</p>
+              </div>
+              <p className="text-xs text-on-surface-variant leading-relaxed">
+                Try linking your vitamin routine to your morning meditation. Ritual stacking
+                increases habit retention by 3×.
+              </p>
+            </div>
+            <div className="px-5 pb-5">
+              <button className="w-full py-2.5 rounded bg-primary/10 text-primary text-xs font-semibold hover:bg-primary/20 transition-colors">
+                Explore Full Report →
+              </button>
+            </div>
           </div>
-        </motion.div>
-      </motion.div>
+
+          {/* Today's Daily Score */}
+          <div className="bg-surface-container-lowest rounded-lg shadow-card overflow-hidden">
+            <div className="px-5 pt-5 pb-4">
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant/60">
+                  Today's Daily Score
+                </p>
+                <button className="w-7 h-7 rounded-lg bg-surface-container-high flex items-center justify-center hover:bg-surface-container transition-colors">
+                  <Icon name="chevron_right" size={15} className="text-on-surface-variant" />
+                </button>
+              </div>
+              <p className="text-6xl font-extrabold text-on-surface tracking-tight leading-none">
+                {scorePercent}%
+              </p>
+              <p className="text-xs text-on-surface-variant mt-2.5 leading-relaxed">
+                {scorePercent >= 80
+                  ? "You're in the top 5% of health trackers this month."
+                  : scorePercent >= 50
+                  ? 'Great progress — keep it up today!'
+                  : 'Still time to log your habits today!'}
+              </p>
+            </div>
+            <div className="h-28 bg-gradient-to-br from-secondary/25 via-tertiary/15 to-primary/10 flex items-center justify-center">
+              <Icon name="local_florist" filled size={52} className="text-secondary/35" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Modal */}
+      <AnimatePresence>
+        {modalOpen && (
+          <AddHabitModal
+            initialHabit={editingHabit}
+            onSave={saveHabit}
+            onDelete={editingHabit ? handleDeleteHabit : undefined}
+            onCancel={() => { setModalOpen(false); setEditingHabit(null) }}
+          />
+        )}
+      </AnimatePresence>
     </div>
   )
 }

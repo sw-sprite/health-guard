@@ -37,7 +37,7 @@ export default function SettingsPage() {
         </motion.div>
 
         {/* Profile card */}
-        <motion.div variants={staggerItem} className="bg-surface-container-low rounded-xl p-6 shadow-card flex items-center gap-4">
+        <motion.div variants={staggerItem} className="bg-surface-container-low rounded p-6 shadow-card flex items-center gap-4">
           <div className="w-14 h-14 rounded-full bg-secondary/20 border-2 border-secondary/30 flex items-center justify-center shrink-0">
             {profile.avatarUrl ? (
               <img src={profile.avatarUrl} alt={profile.name} className="w-full h-full object-cover rounded-full" />
@@ -52,7 +52,7 @@ export default function SettingsPage() {
             <p className="text-sm text-on-surface-variant truncate">{profile.email}</p>
             <div className="flex items-center gap-1.5 mt-1">
               <span className={cn(
-                'text-xs font-semibold px-2 py-0.5 rounded-full',
+                'text-xs font-semibold px-2 py-0.5 rounded',
                 isMockMode
                   ? 'bg-tertiary/10 text-tertiary'
                   : 'bg-secondary/10 text-secondary'
@@ -63,29 +63,18 @@ export default function SettingsPage() {
           </div>
         </motion.div>
 
-        {/* Medications */}
+        {/* Habits & Medications */}
         <motion.div variants={staggerItem}>
           <p className="text-xs font-bold uppercase tracking-widest text-on-surface-variant/60 mb-3">
-            Medications
+            Habits &amp; Medications
           </p>
-          <div className="flex flex-col gap-2">
-            {profile.medications.length === 0 && (
-              <div className="px-5 py-4 bg-surface-container-low rounded-xl text-sm text-on-surface-variant">
-                No medications configured yet.
-              </div>
-            )}
-            {profile.medications.map((med) => (
-              <div key={med.id} className="flex items-center gap-4 px-5 py-4 bg-surface-container-low rounded-xl">
-                <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-primary/10">
-                  <Icon name="medication" filled size={20} className="text-primary" />
-                </div>
-                <div className="flex-1">
-                  <p className="font-semibold text-on-surface">{med.name}</p>
-                  <p className="text-xs text-on-surface-variant">{med.dosage} · every {med.frequencyHours} hours</p>
-                </div>
-                <Icon name="edit" size={18} className="text-on-surface-variant/40" />
-              </div>
-            ))}
+          <div className="px-5 py-4 bg-surface-container-low rounded flex items-center gap-4">
+            <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-primary/10">
+              <Icon name="medication" filled size={20} className="text-primary" />
+            </div>
+            <p className="text-sm text-on-surface-variant flex-1">
+              Manage habits and medications from the <strong className="text-on-surface">Log</strong> tab.
+            </p>
           </div>
         </motion.div>
 
@@ -94,7 +83,7 @@ export default function SettingsPage() {
           <p className="text-xs font-bold uppercase tracking-widest text-on-surface-variant/60 mb-3">
             Location
           </p>
-          <div className="flex items-center gap-4 px-5 py-4 bg-surface-container-low rounded-xl">
+          <div className="flex items-center gap-4 px-5 py-4 bg-surface-container-low rounded">
             <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-secondary/10">
               <Icon name="location_on" filled size={20} className="text-secondary" />
             </div>
@@ -113,7 +102,7 @@ export default function SettingsPage() {
           </p>
           <button
             onClick={handleToggleMockMode}
-            className="w-full flex items-center gap-4 px-5 py-4 bg-surface-container-low rounded-xl hover:bg-surface-container transition-colors text-left"
+            className="w-full flex items-center gap-4 px-5 py-4 bg-surface-container-low rounded hover:bg-surface-container transition-colors text-left"
           >
             <div className={cn(
               'w-10 h-10 rounded-full flex items-center justify-center shrink-0',
@@ -143,7 +132,7 @@ export default function SettingsPage() {
         <motion.div variants={staggerItem}>
           <a
             href="/api/auth/signout"
-            className="w-full flex items-center gap-4 px-5 py-4 bg-surface-container-low rounded-xl hover:bg-error/5 transition-colors group"
+            className="w-full flex items-center gap-4 px-5 py-4 bg-surface-container-low rounded hover:bg-error/5 transition-colors group"
           >
             <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-error/10">
               <Icon name="logout" size={20} className="text-error" />
@@ -158,7 +147,7 @@ export default function SettingsPage() {
         </motion.div>
 
         {/* Coming soon */}
-        <motion.div variants={staggerItem} className="rounded-xl border-2 border-dashed border-surface-container-high p-6 text-center flex flex-col items-center gap-2">
+        <motion.div variants={staggerItem} className="rounded-lg border-2 border-dashed border-surface-container-high p-6 text-center flex flex-col items-center gap-2">
           <Icon name="smart_toy" filled size={32} className="text-on-surface-variant/40" />
           <p className="font-semibold text-on-surface-variant/60">Health Guard Assistant Configuration</p>
           <p className="text-xs text-on-surface-variant/40">Messaging integrations, smart rules, and automation — Phase 3</p>

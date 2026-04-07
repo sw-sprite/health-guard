@@ -4,35 +4,45 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Icon from '@/components/ui/Icon'
 import { cardVariants } from '@/lib/animations'
-import type { CardState, MedicationLog, Medication } from '@/lib/types'
-import { formatDistanceToNow } from 'date-fns'
+import type { CardState, Habit, HabitEntry } from '@/lib/types'
+import { format, parseISO, differenceInCalendarDays } from 'date-fns'
 import { cn } from '@/lib/utils'
 
 interface TreatmentWindowCardProps {
   cardState: CardState
-  logs: MedicationLog[]
-  medications: Medication[]
+  habits: Habit[]
+  habitEntries: HabitEntry[]
 }
 
 const STATUS_ICON = {
-  safe: { name: 'check_circle', color: 'text-secondary', bg: 'bg-secondary/10' },
-  warning: { name: 'schedule', color: 'text-primary', bg: 'bg-primary/10' },
-  critical: { name: 'error', color: 'text-error', bg: 'bg-error/10' },
+  safe:     { name: 'check_circle', color: 'text-secondary', bg: 'bg-secondary/10' },
+  warning:  { name: 'schedule',     color: 'text-primary',   bg: 'bg-primary/10'   },
+  critical: { name: 'error',        color: 'text-error',     bg: 'bg-error/10'     },
 }
 
-export default function TreatmentWindowCard({ cardState, logs, medications }: TreatmentWindowCardProps) {
+function relativeDay(dateStr: string): string {
+  const diff = differenceInCalendarDays(new Date(), parseISO(dateStr))
+  if (diff === 0) return 'Today'
+  if (diff === 1) return 'Yesterday'
+  return format(parseISO(dateStr), 'MMM d')
+}
+
+export default function TreatmentWindowCard({ cardState, habits, habitEntries }: TreatmentWindowCardProps) {
   const { status } = cardState
   const iconCfg = STATUS_ICON[status]
-  const primaryMed = medications[0]
-  const lastLog = logs
-    .filter((l) => l.medicationId === primaryMed?.id)
-    .sort((a, b) => new Date(b.loggedAt).getTime() - new Date(a.loggedAt).getTime())[0]
+
+  const primaryMed = habits.find((h) => h.category === 'medication')
+  const lastSuccessEntry = primaryMed
+    ? habitEntries
+        .filter((e) => e.habitId === primaryMed.id && e.status === 'success')
+        .sort((a, b) => b.date.localeCompare(a.date))[0]
+    : undefined
 
   return (
     <motion.div
       animate={status}
       variants={cardVariants}
-      className="rounded-xl p-6 border-2 border-transparent shadow-card h-full flex flex-col gap-4"
+      className="rounded-lg p-6 border-2 border-transparent shadow-card h-full flex flex-col gap-4"
       style={{ backgroundColor: 'rgba(227, 232, 243, 1)' }}
     >
       {/* Header */}
@@ -52,25 +62,23 @@ export default function TreatmentWindowCard({ cardState, logs, medications }: Tr
 
       {/* Medication info */}
       {primaryMed && (
-        <div className="bg-white/60 rounded-xl p-4 flex flex-col gap-1">
+        <div className="bg-white/60 rounded p-4 flex flex-col gap-1">
           <p className="text-xs font-bold uppercase tracking-widest text-on-surface-variant/60">Primary Medication</p>
           <p className="font-semibold text-on-surface">{primaryMed.name}</p>
-          <p className="text-xs text-on-surface-variant">{primaryMed.dosage} · every {primaryMed.frequencyHours}h</p>
+          <p className="text-xs text-on-surface-variant">
+            {primaryMed.medicationDosage && <>{primaryMed.medicationDosage} · </>}
+            every {primaryMed.medicationFrequencyHours ?? 24}h
+          </p>
         </div>
       )}
 
       {/* Last dose */}
-      <div className="bg-white/60 rounded-xl p-4">
+      <div className="bg-white/60 rounded p-4">
         <p className="text-xs font-bold uppercase tracking-widest text-on-surface-variant/60 mb-1">Last Dose</p>
-        {lastLog ? (
-          <>
-            <p className="font-semibold text-on-surface text-sm">
-              {formatDistanceToNow(new Date(lastLog.loggedAt), { addSuffix: true })}
-            </p>
-            {lastLog.notes && (
-              <p className="text-xs text-on-surface-variant mt-0.5">{lastLog.notes}</p>
-            )}
-          </>
+        {lastSuccessEntry ? (
+          <p className="font-semibold text-on-surface text-sm">
+            {relativeDay(lastSuccessEntry.date)}
+          </p>
         ) : (
           <p className="text-sm text-on-surface-variant">No doses logged yet</p>
         )}
@@ -81,7 +89,7 @@ export default function TreatmentWindowCard({ cardState, logs, medications }: Tr
         <Link
           href={cardState.action.href}
           className={cn(
-            'flex items-center justify-center gap-2 w-full py-3 rounded-full font-semibold text-sm active:scale-95 transition-all',
+            'flex items-center justify-center gap-2 w-full py-3 rounded font-semibold text-sm active:scale-95 transition-all',
             status === 'critical'
               ? 'bg-error text-white hover:bg-error/90'
               : 'bg-primary text-white hover:bg-primary/90'

@@ -54,7 +54,7 @@ export default function AtmosphericCard({ cardState, env }: AtmosphericCardProps
     <motion.div
       animate={status}
       variants={cardVariants}
-      className="rounded-xl p-6 border-2 border-transparent shadow-card h-full flex flex-col gap-5"
+      className="rounded-lg p-6 border-2 border-transparent shadow-card h-full flex flex-col gap-5"
       style={{ backgroundColor: 'rgba(227, 232, 243, 1)' }}
     >
       {/* Header */}
@@ -67,7 +67,7 @@ export default function AtmosphericCard({ cardState, env }: AtmosphericCardProps
         </div>
         <div className={cn('w-11 h-11 rounded-full flex items-center justify-center shrink-0', pollenBg)}>
           <Icon
-            name={status === 'safe' ? 'air' : 'pollen'}
+            name={status === 'safe' ? 'air' : 'grass'}
             filled
             size={22}
             className={pollenColor}
@@ -77,7 +77,7 @@ export default function AtmosphericCard({ cardState, env }: AtmosphericCardProps
 
       {/* AQI + Pollen level */}
       <div className="flex gap-4">
-        <div className="flex-1 bg-white/60 rounded-xl p-4">
+        <div className="flex-1 bg-white/60 rounded p-4">
           <p className="text-xs font-bold uppercase tracking-widest text-on-surface-variant/60 mb-1">AQI</p>
           <p className={cn('text-3xl font-extrabold', env.aqi < 100 ? 'text-secondary' : env.aqi < 200 ? 'text-yellow-600' : 'text-error')}>
             {env.aqi}
@@ -86,7 +86,7 @@ export default function AtmosphericCard({ cardState, env }: AtmosphericCardProps
             {env.aqi < 50 ? 'Good' : env.aqi < 100 ? 'Moderate' : env.aqi < 150 ? 'Unhealthy for sensitive' : 'Unhealthy'}
           </p>
         </div>
-        <div className="flex-1 bg-white/60 rounded-xl p-4">
+        <div className="flex-1 bg-white/60 rounded p-4">
           <p className="text-xs font-bold uppercase tracking-widest text-on-surface-variant/60 mb-1">Pollen</p>
           <p className={cn('text-3xl font-extrabold capitalize', pollenColor)}>{env.pollenLevel}</p>
           <p className="text-xs text-on-surface-variant mt-0.5">{env.city}</p>
@@ -94,7 +94,7 @@ export default function AtmosphericCard({ cardState, env }: AtmosphericCardProps
       </div>
 
       {/* Pollen breakdown */}
-      <div className="bg-white/60 rounded-xl p-4 flex flex-col gap-2.5">
+      <div className="bg-white/60 rounded p-4 flex flex-col gap-2.5">
         <p className="text-xs font-bold uppercase tracking-widest text-on-surface-variant/60">Pollen Breakdown</p>
         <PollenBar label="Grass" value={env.pollenTypes.grass} />
         <PollenBar label="Tree" value={env.pollenTypes.tree} />
@@ -106,7 +106,7 @@ export default function AtmosphericCard({ cardState, env }: AtmosphericCardProps
       {cardState.actionable && cardState.action && (
         <Link
           href={cardState.action.href}
-          className="flex items-center justify-center gap-2 w-full py-3 bg-primary text-white rounded-full font-semibold text-sm hover:bg-primary/90 active:scale-95 transition-all"
+          className="flex items-center justify-center gap-2 w-full py-3 bg-primary text-white rounded-lg font-semibold text-sm hover:bg-primary/90 active:scale-95 transition-all"
         >
           <Icon name="medication" filled size={16} />
           {cardState.action.label}

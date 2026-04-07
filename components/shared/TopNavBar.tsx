@@ -30,7 +30,7 @@ export default function TopNavBar({ user, notifications, onMarkRead }: TopNavBar
       <div className="max-w-6xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <Link href="/status" className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
             <Icon name="shield_with_heart" filled size={18} className="text-white" />
           </div>
           <span className="font-bold text-on-surface tracking-tight">Health Guard</span>
@@ -45,7 +45,7 @@ export default function TopNavBar({ user, notifications, onMarkRead }: TopNavBar
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  'flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-all',
+                  'flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all',
                   active
                     ? 'bg-surface-container text-on-surface'
                     : 'text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface'
@@ -64,7 +64,7 @@ export default function TopNavBar({ user, notifications, onMarkRead }: TopNavBar
           <div className="relative">
             <button
               onClick={() => setNotifOpen(!notifOpen)}
-              className="relative p-2 hover:bg-surface-container-low rounded-full transition-all"
+              className="relative p-2 hover:bg-surface-container-low rounded-lg transition-all"
               aria-label="Notifications"
             >
               <Icon name="notifications" filled={notifOpen} size={22} className="text-on-surface-variant" />
@@ -86,7 +86,7 @@ export default function TopNavBar({ user, notifications, onMarkRead }: TopNavBar
           {/* Settings */}
           <Link
             href="/settings"
-            className="p-2 hover:bg-surface-container-low rounded-full transition-all"
+            className="p-2 hover:bg-surface-container-low rounded-lg transition-all"
             aria-label="Settings"
           >
             <Icon name="settings" size={22} className="text-on-surface-variant" />

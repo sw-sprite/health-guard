@@ -1,241 +1,303 @@
 <!DOCTYPE html>
 
-<html class="light" lang="en"><head>
+<html lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Health Guard - Log</title>
+<title>Health Guard | Daily Log</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "tertiary-container": "#989ea8",
-                        "on-surface": "#161c23",
-                        "on-secondary": "#ffffff",
-                        "tertiary-fixed": "#dde3ed",
-                        "surface-container-highest": "#dde3ed",
-                        "surface-dim": "#d5dae5",
-                        "surface-variant": "#dde3ed",
-                        "on-secondary-fixed": "#001f2a",
-                        "on-primary-container": "#70001f",
-                        "surface-tint": "#ac3044",
-                        "secondary-fixed-dim": "#a3cce2",
-                        "on-primary": "#ffffff",
-                        "secondary-fixed": "#bfe9ff",
-                        "inverse-on-surface": "#ecf1fc",
-                        "primary": "#ac3044",
-                        "on-secondary-container": "#416a7c",
-                        "outline-variant": "#dfbfc0",
-                        "surface-container-lowest": "#ffffff",
-                        "surface-container": "#e9eef9",
-                        "secondary-container": "#bfe9ff",
-                        "surface-container-low": "#eef4ff",
-                        "secondary": "#3b6476",
-                        "on-surface-variant": "#584142",
-                        "on-tertiary": "#ffffff",
-                        "background": "#f8f9ff",
-                        "outline": "#8b7172",
-                        "on-tertiary-fixed": "#161c23",
-                        "primary-fixed": "#ffdadb",
-                        "tertiary-fixed-dim": "#c1c7d1",
-                        "primary-fixed-dim": "#ffb2b7",
-                        "on-tertiary-container": "#2f353e",
-                        "on-secondary-fixed-variant": "#214c5d",
-                        "surface": "#f8f9ff",
-                        "error-container": "#ffdad6",
-                        "primary-container": "#ff6e7f",
-                        "surface-bright": "#f8f9ff",
-                        "on-tertiary-fixed-variant": "#414750",
-                        "on-error-container": "#93000a",
-                        "inverse-primary": "#ffb2b7",
-                        "on-error": "#ffffff",
-                        "tertiary": "#595f68",
-                        "error": "#ba1a1a",
-                        "surface-container-high": "#e3e8f3",
-                        "inverse-surface": "#2b3139",
-                        "on-primary-fixed": "#40000e",
-                        "on-primary-fixed-variant": "#8b152e",
-                        "on-background": "#161c23"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "1rem",
-                        "lg": "2rem",
-                        "xl": "3rem",
-                        "full": "9999px"
-                    },
-                    "fontFamily": {
-                        "headline": ["Inter"],
-                        "body": ["Inter"],
-                        "label": ["Inter"]
-                    }
-                },
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed": "#001f2a",
+                    "on-background": "#161c23",
+                    "tertiary": "#595f68",
+                    "on-tertiary": "#ffffff",
+                    "inverse-on-surface": "#ecf1fc",
+                    "surface-variant": "#dde3ed",
+                    "surface-tint": "#ac3044",
+                    "inverse-surface": "#2b3139",
+                    "outline": "#8b7172",
+                    "on-tertiary-container": "#2f353e",
+                    "on-primary-fixed": "#40000e",
+                    "surface-dim": "#d5dae5",
+                    "on-primary": "#ffffff",
+                    "primary-fixed-dim": "#ffb2b7",
+                    "on-tertiary-fixed-variant": "#414750",
+                    "on-error-container": "#93000a",
+                    "surface-bright": "#f8f9ff",
+                    "on-primary-fixed-variant": "#8b152e",
+                    "on-error": "#ffffff",
+                    "on-secondary-container": "#416a7c",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-container": "#bfe9ff",
+                    "secondary": "#3b6476",
+                    "primary-container": "#ff6e7f",
+                    "on-surface-variant": "#584142",
+                    "surface-container-high": "#e3e8f3",
+                    "tertiary-container": "#989ea8",
+                    "primary-fixed": "#ffdadb",
+                    "on-surface": "#161c23",
+                    "secondary-fixed-dim": "#a3cce2",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed-dim": "#c1c7d1",
+                    "inverse-primary": "#ffb2b7",
+                    "secondary-fixed": "#bfe9ff",
+                    "on-tertiary-fixed": "#161c23",
+                    "surface-container-low": "#eef4ff",
+                    "outline-variant": "#dfbfc0",
+                    "on-primary-container": "#70001f",
+                    "background": "#f8f9ff",
+                    "surface": "#f8f9ff",
+                    "tertiary-fixed": "#dde3ed",
+                    "error": "#ba1a1a",
+                    "on-secondary-fixed-variant": "#214c5d",
+                    "primary": "#ac3044",
+                    "on-secondary": "#ffffff",
+                    "surface-container-highest": "#dde3ed",
+                    "surface-container": "#e9eef9"
             },
-        }
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
     </script>
 <style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass { backdrop-filter: blur(12px); }
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
-        body { font-family: 'Inter', sans-serif; }
+        .bento-card { transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .bento-card:hover { transform: translateY(-4px); }
+        .action-hover-visible { opacity: 0; pointer-events: none; transition: opacity 0.2s ease; }
+        .row-container:hover .action-hover-visible { opacity: 1; pointer-events: auto; }
     </style>
 </head>
-<body class="bg-background text-on-surface antialiased min-h-screen">
-<!-- TopNavBar (Shared Component) -->
-<nav class="fixed top-0 w-full z-50 px-6 py-3 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl transition-all shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-<div class="flex justify-between items-center max-w-7xl mx-auto">
+<body class="bg-surface text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar Component from JSON -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-8 py-4 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-md shadow-[0_20px_40px_rgba(22,28,35,0.06)] shadow-[inset_0_-1px_0_0_rgba(191,233,255,0.2)]">
 <div class="flex items-center gap-8">
-<span class="text-xl font-bold tracking-tighter text-slate-900 dark:text-slate-50">Health Guard</span>
-<div class="hidden md:flex gap-6">
-<a class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors" href="#">Status</a>
-<a class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors" href="#">Trends</a>
-<a class="text-slate-900 dark:text-white font-semibold border-b-2 border-rose-500 pb-1" href="#">Log</a>
+<span class="text-xl font-bold tracking-tighter text-rose-700 dark:text-rose-400">Health Guard</span>
+<div class="hidden md:flex gap-6 font-['Inter'] font-medium tracking-tight">
+<a class="text-slate-600 dark:text-slate-400 hover:text-rose-600 transition-all duration-300" href="#">Status</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-rose-600 transition-all duration-300" href="#">Trends</a>
+<a class="text-rose-700 dark:text-rose-400 font-bold border-b-2 border-rose-400/30 pb-1" href="#">Log</a>
 </div>
 </div>
 <div class="flex items-center gap-4">
-<button class="p-2 hover:bg-slate-100/50 dark:hover:bg-slate-800/50 rounded-full transition-all scale-95 active:opacity-80">
-<span class="material-symbols-outlined text-slate-600 dark:text-slate-300">settings</span>
+<button class="p-2 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-full transition-all duration-300 active:scale-95">
+<span class="material-symbols-outlined text-slate-600" data-icon="notifications">notifications</span>
 </button>
-<div class="h-10 w-10 rounded-full bg-surface-container-high overflow-hidden">
-<img alt="User profile avatar" class="w-full h-full object-cover" data-alt="Close-up portrait of a professional man with friendly expression in soft daylight, minimalist background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDi3toqoZ75BtFVf06vqG2yEPNaIU4k36vPf92yWI9HzAjISrMgyek-C_IF-8ExIvVLs-YK_rF5Y4kX9WqK_ZIjXQlCMATI9Kn2EyTPjBf8BJlDrKfhIrWSLI2vCDBr6Ol6UaubiQ2isNic77akGMUViSa50pA1WSzXfTLs2TBvflacp7RP2pHAZ9psWstsUGLjzpbGLSDB_2pRGPsE7E4JgdcmhAmTt0FdNytMBsnIxJbLY7OFZPMK5tuDLfJ-0t-jdcuG8lnVaSo"/>
-</div>
+<button class="p-2 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-full transition-all duration-300 active:scale-95">
+<span class="material-symbols-outlined text-slate-600" data-icon="settings">settings</span>
+</button>
+<div class="flex items-center gap-2 pl-2 border-l border-outline-variant/30">
+<img alt="User profile avatar" class="w-8 h-8 rounded-full border border-primary/20" data-alt="Close-up portrait of a professional male with friendly expression against a soft studio backdrop" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmlDYG8O3BzPbW5zZJjI5sEOYMeMa18ADz2sKK0U_CimAE-RuuSmDZT20qZPPv2_HFjyorrcV5ZrIKgQ_8fFBww1aTqNcEqyzy-KGgLRxg7e8bZBhvq3Up0xXwECO3cv5eW0eo_CtkgtB3Nmu_tIraUy64wTe3RM3BKBnBn_prljdB0u_sdXInMNnt-vDO3M-wFWY0qFQHtMriufuK4lsVf33AMedW5Lqd213EBT26J80NEjYQCWrsMenV3DhZg7zxFnnLVDVB42s"/>
+<span class="material-symbols-outlined text-slate-600 text-sm" data-icon="keyboard_arrow_down">keyboard_arrow_down</span>
 </div>
 </div>
 </nav>
-<main class="max-w-5xl mx-auto pt-32 pb-20 px-6">
-<!-- Zero-UI Input Section -->
-<section class="mb-16">
-<h1 class="text-4xl md:text-5xl font-bold tracking-tight text-on-surface mb-8">What's happening right now?</h1>
-<div class="relative group">
-<textarea class="w-full bg-surface-container-high border-none rounded-xl p-8 text-2xl md:text-3xl placeholder-on-surface-variant/40 focus:ring-4 focus:ring-secondary/10 focus:bg-surface-container-lowest transition-all resize-none overflow-hidden" placeholder="Describe your mood, symptoms, or activity..." rows="2"></textarea>
-<div class="absolute right-6 bottom-6 flex gap-3">
-<button class="bg-primary text-on-primary px-8 py-3 rounded-full font-semibold shadow-lg hover:opacity-90 transition-all scale-95 active:scale-90 flex items-center gap-2">
-<span>Log Entry</span>
-<span class="material-symbols-outlined text-xl">send</span>
+<main class="pt-28 pb-12 px-8 max-w-7xl mx-auto flex gap-8">
+<!-- Main Content Canvas (Habit Tracker) -->
+<div class="flex-1 space-y-8">
+<!-- Date Navigator -->
+<div class="flex items-center justify-between bg-surface-container-low p-4 rounded-xl">
+<button class="p-2 hover:bg-surface-container-highest rounded-full transition-all">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<div class="flex gap-4">
+<div class="flex flex-col items-center p-3 px-5 rounded-lg text-secondary/60 hover:bg-surface-container transition-colors cursor-pointer">
+<span class="text-xs font-bold tracking-widest uppercase">Mon</span>
+<span class="text-xl font-bold">12</span>
+</div>
+<div class="flex flex-col items-center p-3 px-5 rounded-lg text-secondary/60 hover:bg-surface-container transition-colors cursor-pointer">
+<span class="text-xs font-bold tracking-widest uppercase">Tue</span>
+<span class="text-xl font-bold">13</span>
+</div>
+<div class="flex flex-col items-center p-3 px-6 rounded-lg bg-primary text-on-primary shadow-lg shadow-primary/20 cursor-pointer">
+<span class="text-xs font-bold tracking-widest uppercase">Wed</span>
+<span class="text-2xl font-black">14</span>
+</div>
+<div class="flex flex-col items-center p-3 px-5 rounded-lg text-secondary/60 hover:bg-surface-container transition-colors cursor-pointer">
+<span class="text-xs font-bold tracking-widest uppercase">Thu</span>
+<span class="text-xl font-bold">15</span>
+</div>
+<div class="flex flex-col items-center p-3 px-5 rounded-lg text-secondary/60 hover:bg-surface-container transition-colors cursor-pointer">
+<span class="text-xs font-bold tracking-widest uppercase">Fri</span>
+<span class="text-xl font-bold">16</span>
+</div>
+<div class="flex flex-col items-center p-3 px-5 rounded-lg text-secondary/60 hover:bg-surface-container transition-colors cursor-pointer">
+<span class="text-xs font-bold tracking-widest uppercase">Sat</span>
+<span class="text-xl font-bold">17</span>
+</div>
+</div>
+<button class="p-2 hover:bg-surface-container-highest rounded-full transition-all">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+<!-- Activity Table Container -->
+<div class="bg-surface-container-low rounded-xl overflow-hidden border-none">
+<div class="grid grid-cols-12 gap-4 p-6 border-b border-outline-variant/10 bg-surface-container/50">
+<div class="col-span-4 text-xs font-bold uppercase tracking-widest text-secondary/60">Activity Name</div>
+<div class="col-span-2 text-xs font-bold uppercase tracking-widest text-secondary/60">Daily Goal</div>
+<div class="col-span-2 text-xs font-bold uppercase tracking-widest text-secondary/60">Frequency</div>
+<div class="col-span-2 text-xs font-bold uppercase tracking-widest text-secondary/60">Current Status</div>
+<div class="col-span-2 text-xs font-bold uppercase tracking-widest text-secondary/60 text-right">Quick Actions</div>
+</div>
+<div class="p-2 space-y-2">
+<!-- Row 1: Drink Water (Pending) -->
+<div class="row-container grid grid-cols-12 gap-4 p-5 rounded-lg bg-surface-container-lowest/40 hover:bg-surface-container-lowest transition-all duration-300 items-center">
+<div class="col-span-4 flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-secondary-container" data-icon="water_drop">water_drop</span>
+</div>
+<span class="font-semibold text-lg">Drink Water</span>
+</div>
+<div class="col-span-2 font-medium text-on-surface-variant">8/8</div>
+<div class="col-span-2 text-secondary/70 italic">Daily</div>
+<div class="col-span-2">
+<span class="px-3 py-1 rounded-full text-xs font-bold bg-surface-container-highest text-secondary/70">Pending</span>
+</div>
+<div class="col-span-2 flex items-center justify-end gap-3">
+<div class="action-hover-visible flex items-center w-3/4 bg-surface-container p-1 rounded-full border border-outline-variant/20">
+<input class="w-full bg-transparent border-none focus:ring-0 text-right pr-1 text-sm font-bold" placeholder="0" type="number"/>
+<span class="text-[10px] uppercase tracking-tighter text-secondary/50 pr-2">ml</span>
+</div>
+<button class="p-1 hover:bg-surface-container rounded-md">
+<span class="material-symbols-outlined text-secondary/40" data-icon="more_vert">more_vert</span>
 </button>
 </div>
 </div>
-</section>
-<!-- Quick Log Bento Grid -->
-<section class="mb-20">
-<h2 class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-6 opacity-60">Quick Log</h2>
-<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-<!-- Medicine Card -->
-<div class="col-span-1 md:col-span-2 bg-surface-container-low rounded-xl p-8 relative overflow-hidden group">
-<div class="relative z-10">
-<div class="bg-primary-container/20 w-12 h-12 rounded-full flex items-center justify-center mb-6">
-<span class="material-symbols-outlined text-primary" data-weight="fill">medical_services</span>
+<!-- Row 2: Meditate (Success) -->
+<div class="row-container grid grid-cols-12 gap-4 p-5 rounded-lg bg-surface-container-lowest/40 hover:bg-surface-container-lowest transition-all duration-300 items-center">
+<div class="col-span-4 flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-primary-container/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="self_improvement">self_improvement</span>
 </div>
-<h3 class="text-2xl font-bold mb-2">Medicine</h3>
-<p class="text-on-surface-variant mb-8">Next: Vitamin D3 (2000 IU)</p>
-<button class="w-full bg-primary text-on-primary py-4 rounded-lg font-bold flex items-center justify-center gap-2 hover:shadow-xl transition-all active:scale-95">
-<span>Log Dose Taken</span>
+<span class="font-semibold text-lg">Meditate</span>
+</div>
+<div class="col-span-2 font-medium text-on-surface-variant">1/1</div>
+<div class="col-span-2 text-secondary/70 italic">Daily</div>
+<div class="col-span-2">
+<span class="px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700">Success</span>
+</div>
+<div class="col-span-2 flex items-center justify-end gap-3">
+<button class="action-hover-visible px-4 py-1 rounded-full text-xs font-bold text-secondary hover:bg-secondary-container transition-colors">
+                                Clear
+                            </button>
+<button class="p-1 hover:bg-surface-container rounded-md">
+<span class="material-symbols-outlined text-secondary/40" data-icon="more_vert">more_vert</span>
 </button>
 </div>
-<div class="absolute -right-4 -bottom-4 opacity-10 group-hover:opacity-20 transition-opacity">
-<span class="material-symbols-outlined text-9xl">pill</span>
 </div>
+<!-- Row 3: Vitamins (Fail) -->
+<div class="row-container grid grid-cols-12 gap-4 p-5 rounded-lg bg-surface-container-lowest/40 hover:bg-surface-container-lowest transition-all duration-300 items-center">
+<div class="col-span-4 flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center">
+<span class="material-symbols-outlined text-orange-700" data-icon="pill">pill</span>
 </div>
-<!-- Hydration Card -->
-<div class="col-span-1 bg-surface-container-low rounded-xl p-8 flex flex-col justify-between group">
-<div>
-<div class="bg-secondary-container w-12 h-12 rounded-full flex items-center justify-center mb-6">
-<span class="material-symbols-outlined text-on-secondary-container" data-weight="fill">water_drop</span>
+<span class="font-semibold text-lg">Vitamins</span>
 </div>
-<h3 class="text-xl font-bold mb-1">Hydration</h3>
-<p class="text-3xl font-extrabold text-secondary">1.2L <span class="text-sm font-normal opacity-50">/ 2.5L</span></p>
+<div class="col-span-2 font-medium text-on-surface-variant">0/1</div>
+<div class="col-span-2 text-secondary/70 italic">Daily</div>
+<div class="col-span-2">
+<span class="px-3 py-1 rounded-full text-xs font-bold bg-error-container text-error">Fail</span>
 </div>
-<button class="mt-8 bg-secondary-container text-on-secondary-container py-4 rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-secondary-fixed transition-all active:scale-95">
-<span class="material-symbols-outlined text-lg">add</span>
-<span>250ml</span>
+<div class="col-span-2 flex items-center justify-end gap-3">
+<button class="action-hover-visible px-4 py-1 rounded-full text-xs font-bold text-secondary hover:bg-secondary-container transition-colors">
+                                Clear
+                            </button>
+<button class="p-1 hover:bg-surface-container rounded-md">
+<span class="material-symbols-outlined text-secondary/40" data-icon="more_vert">more_vert</span>
 </button>
 </div>
-<!-- Gym Card -->
-<div class="col-span-1 bg-surface-container-low rounded-xl p-8 flex flex-col justify-between group">
+</div>
+</div>
+<div class="p-6 border-t border-outline-variant/10 bg-surface-container/20 flex items-center justify-between">
+<button class="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-primary to-primary-container text-on-primary rounded-full font-bold shadow-lg shadow-primary/20 active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+<span>Add New Habit</span>
+</button>
+<div class="flex gap-6 items-center">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-green-500"></div>
+<span class="text-xs font-bold uppercase tracking-widest text-secondary/60">Completed</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-surface-container-highest"></div>
+<span class="text-xs font-bold uppercase tracking-widest text-secondary/60">In Progress</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-error"></div>
+<span class="text-xs font-bold uppercase tracking-widest text-secondary/60">Missed</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Side Insight Card -->
+<aside class="w-80 flex flex-col gap-6">
+<div class="bento-card bg-surface-container p-8 rounded-xl relative overflow-hidden flex flex-col h-fit">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-6xl" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<h3 class="text-xs font-black uppercase tracking-[0.2em] text-primary mb-6">Curator's Insight</h3>
+<div class="space-y-6">
 <div>
-<div class="bg-tertiary-fixed w-12 h-12 rounded-full flex items-center justify-center mb-6">
-<span class="material-symbols-outlined text-on-tertiary-fixed">fitness_center</span>
+<h4 class="text-lg font-bold mb-2">Hydration Spike</h4>
+<p class="text-sm leading-relaxed text-secondary/80">
+                            Your water intake has increased by <span class="font-bold text-on-surface">15%</span> this week. Studies show this level of hydration can improve cognitive focus by up to <span class="font-bold text-on-surface">20%</span> during afternoon peaks.
+                        </p>
 </div>
-<h3 class="text-xl font-bold mb-1">Gym</h3>
-<p class="text-on-surface-variant text-sm">Last session: 2 days ago</p>
+<div class="p-4 bg-surface-container-lowest rounded-lg border border-outline-variant/10">
+<h4 class="text-sm font-bold flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="lightbulb">lightbulb</span>
+                            Wellness Tip
+                        </h4>
+<p class="text-xs text-secondary/70 leading-relaxed">
+                            Try linking your vitamin intake to your morning meditation. Ritual stacking increases habit retention by 3x.
+                        </p>
 </div>
-<button class="mt-8 bg-on-surface text-surface py-4 rounded-lg font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-all active:scale-95">
-<span class="material-symbols-outlined text-lg">play_arrow</span>
-<span>Start</span>
+<button class="w-full py-3 bg-secondary text-on-secondary rounded-full text-sm font-bold flex items-center justify-center gap-2 hover:bg-on-secondary-fixed transition-colors">
+                        Explore Full Report
+                        <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
 </button>
 </div>
-<!-- Add New Category -->
-<div class="col-span-1 md:col-span-4 border-2 border-dashed border-outline-variant/30 rounded-xl p-6 flex items-center justify-center hover:bg-surface-container-lowest transition-colors cursor-pointer group">
-<div class="flex items-center gap-4 text-on-surface-variant group-hover:text-primary transition-colors">
-<span class="material-symbols-outlined">add_circle</span>
-<span class="font-medium">Add New Category</span>
 </div>
-</div>
-</div>
-</section>
-<!-- Recent Activity List -->
-<section>
-<div class="flex items-center justify-between mb-8">
-<h2 class="text-2xl font-bold tracking-tight">Recent Activity</h2>
-<button class="text-sm font-semibold text-secondary hover:underline">View All</button>
-</div>
-<div class="space-y-4">
-<!-- Activity Item 1 -->
-<div class="bg-surface-container-lowest rounded-lg p-6 flex items-center justify-between transition-all hover:scale-[1.01]">
-<div class="flex items-center gap-6">
-<div class="w-12 h-12 rounded-full bg-secondary-container/30 flex items-center justify-center">
-<span class="material-symbols-outlined text-secondary">water_drop</span>
-</div>
+<div class="bento-card bg-gradient-to-br from-secondary to-on-secondary-fixed p-6 rounded-xl text-on-secondary">
+<div class="flex justify-between items-start mb-8">
 <div>
-<p class="font-bold">Hydration</p>
-<p class="text-sm text-on-surface-variant">Added 250ml of water</p>
+<span class="text-[10px] font-bold uppercase tracking-widest opacity-60">Consistency Score</span>
+<h2 class="text-4xl font-black mt-1">94%</h2>
+</div>
+<div class="w-12 h-12 rounded-full border-4 border-primary/40 border-t-primary flex items-center justify-center">
+<span class="text-[10px] font-bold">A+</span>
 </div>
 </div>
-<div class="text-right">
-<p class="text-sm font-medium">10:45 AM</p>
-<p class="text-xs text-on-surface-variant opacity-60">Just now</p>
+<div class="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-primary-container w-[94%]"></div>
 </div>
+<p class="mt-4 text-xs opacity-60 font-medium">You're in the top 5% of health keepers this month.</p>
 </div>
-<!-- Activity Item 2 -->
-<div class="bg-surface-container-lowest rounded-lg p-6 flex items-center justify-between transition-all hover:scale-[1.01]">
-<div class="flex items-center gap-6">
-<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center">
-<span class="material-symbols-outlined text-on-surface-variant">edit_note</span>
+<div class="rounded-xl overflow-hidden shadow-2xl shadow-primary/10">
+<img alt="Peaceful wellness scene" class="w-full h-40 object-cover" data-alt="Calm aesthetic photo of a single green leaf with dew drops and soft morning sunlight through frosted glass" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaoe-YHpPfRfL4JgLGCrDflqlaXuyOKcJxKCFiIZnA4xvtj3L54rklrfcjRcSRtMU3TmoLAre5gyN5SKlE0JxYy0_xwV3DOsSlU5YLKIqDJp_iUDVbtXUJy_pSuaY9aJQhxKLIz9kc6LyyYz3X7aoM9FDaSnL0ADd0BuL54hriWK-09TZUifh2xV3RNaDjjd8gqYNpNIE7u_le8RXAfx6RchXXAkXAvtkaon0fPF6Id50cG_vS-iyB8q3SxGNUghWDRaixvXRZpRs"/>
 </div>
-<div>
-<p class="font-bold">Note</p>
-<p class="text-sm text-on-surface-variant">"Feeling very energetic after morning coffee..."</p>
-</div>
-</div>
-<div class="text-right">
-<p class="text-sm font-medium">08:30 AM</p>
-<p class="text-xs text-on-surface-variant opacity-60">2 hours ago</p>
-</div>
-</div>
-<!-- Activity Item 3 -->
-<div class="bg-surface-container-lowest rounded-lg p-6 flex items-center justify-between transition-all hover:scale-[1.01]">
-<div class="flex items-center gap-6">
-<div class="w-12 h-12 rounded-full bg-primary-container/20 flex items-center justify-center">
-<span class="material-symbols-outlined text-primary">pill</span>
-</div>
-<div>
-<p class="font-bold">Medicine</p>
-<p class="text-sm text-on-surface-variant">Logged Magnesium (400mg)</p>
-</div>
-</div>
-<div class="text-right">
-<p class="text-sm font-medium">Yesterday</p>
-<p class="text-xs text-on-surface-variant opacity-60">11:00 PM</p>
-</div>
-</div>
-</div>
-</section>
+</aside>
 </main>
-<!-- Visual Polish: Background Blobs -->
-<div class="fixed top-[-10%] right-[-10%] w-[50%] h-[50%] bg-primary-container/5 rounded-full blur-[120px] pointer-events-none"></div>
-<div class="fixed bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-secondary-container/10 rounded-full blur-[100px] pointer-events-none"></div>
 </body></html>
